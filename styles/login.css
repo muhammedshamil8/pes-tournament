@@ -1,0 +1,50 @@
+body {
+   background-image: url('/images/e-football.jpg');
+   background-size: cover;
+   background-repeat: no-repeat;
+   margin: 0;
+   padding: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-height: 100vh;
+ }
+ .login-container {
+   background-color: rgba(1, 29, 29, 0.708);
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+   width: 300px;
+   text-align: center;
+   color: white;
+ }
+ .login-container h2 {
+   margin-bottom: 20px;
+   font-size: 28px;
+ }
+ 
+ .btn-login {
+   width: 100%;
+   padding: 10px;
+   background-color: #1062c0;
+   color: white;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   font-size: 16px;
+   font-weight: bold;
+   transition: background-color 0.3s ease;
+ }
+ .login-container button:hover {
+   background-color: #0a4a8b;
+ }
+ .login-container a {
+   display: block;
+   margin-top: 10px;
+   color: #ddd;
+   text-decoration: none;
+   font-size: 14px;
+ }
+ .login-container a:hover {
+   color: rgb(0, 4, 255);
+ }

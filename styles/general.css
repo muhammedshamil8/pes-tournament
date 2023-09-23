@@ -1,0 +1,196 @@
+* {
+  font-family: 'Roboto Condensed', sans-serif;
+
+}
+
+body {
+  background-position: center center;
+  font-family: 'Roboto Condensed', sans-serif;
+
+}
+
+.return {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  background-color: #141414;
+  color: rgb(250, 248, 248);
+  border: none;
+  border-bottom-right-radius: 8px;
+  cursor: pointer;
+}
+
+.return:hover {
+  background-color: #0b62d4;
+
+}
+
+.icon-back {
+  height: 15px;
+}
+
+.input,
+.select {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.select {
+  width: 100%;
+}
+
+.input {
+  width: 98%;
+
+}
+.error_message{
+  color: rgb(255, 0, 0);
+  
+}
+.success_message{
+  color: rgb(102, 255, 0);
+  
+}
+
+.hidden {
+  display: none;
+}
+
+.card-settings {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  /* position: absolute; */
+  position: fixed;
+
+  top: 35px;
+  height: 350px;
+  right: 0;
+  width: 200px;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+ 
+}
+
+.settingsBtn{
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  background-color: #000000ec;
+  color: rgb(255, 255, 255);
+  border: none;
+  border-bottom-left-radius: 8px;
+  cursor: pointer;
+  align-items: center;
+  /* z-index: 2; */
+}
+#closeSettingsBtn{
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: none;
+  background-color: rgb(167, 8, 8);
+}
+.close-btn:hover{
+  background-color: white;
+
+}
+#closeSettingsBtn:hover{
+  background-color: rgb(255, 0, 0);
+}
+.settingsBtn:hover {
+  background-color: #215ba7;
+
+}
+.logout-a{
+text-decoration: none;
+color: #000;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+table, th, td {
+  border: none;
+
+}
+table td{
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 1px;
+  padding-left: 30px;
+  margin: 0px;
+}
+table td:hover{
+  background-color: rgb(185, 185, 185);
+}
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 1px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3; /* Dark mode background color */
+}
+
+input:checked + .slider:before {
+  transform: translateX(18px);
+}
+
+.nav-img{
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
+}
+.aduio-btn{
+/* background-color: white; */
+/* color: red; */
+border-radius: 10px;
+border: none;
+/* width: auto; */
+/* height: 20px; */
+}
