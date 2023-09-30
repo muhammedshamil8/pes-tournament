@@ -80,7 +80,7 @@ body {
   position: absolute;
   top: 0;
   right: 0;
-  padding: 5px;
+  padding: 10px;
   background-color: #000000ec;
   color: rgb(255, 255, 255);
   border: none;
@@ -113,16 +113,16 @@ body {
 text-decoration: none;
 color: #000;
 }
-table {
+.table-stn {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-table, th, td {
+.table-stn, th, td {
   border: none;
 
 }
-table td{
+.table-stn td{
   display: flex;
   text-align: center;
   align-items: center;
@@ -131,7 +131,7 @@ table td{
   padding-left: 30px;
   margin: 0px;
 }
-table td:hover{
+.table-stn td:hover{
   background-color: rgb(185, 185, 185);
 }
 

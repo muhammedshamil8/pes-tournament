@@ -39,8 +39,8 @@ body {
    background-color: #0a4a8b;
  }
  .login-container a {
-   display: block;
-   margin-top: 10px;
+   /* display: inline; */
+   /* margin-top: 10px; */
    color: #ddd;
    text-decoration: none;
    font-size: 14px;

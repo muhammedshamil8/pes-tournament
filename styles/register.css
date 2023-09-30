@@ -17,6 +17,7 @@
    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
    width: 300px;
    text-align: center;
+   margin: 20px;
  }
  
  
@@ -32,4 +33,24 @@
  h2{
   color: white;
  }
+ .registration-container button:hover {
+  background-color: #0a4a8b;
+}
+.registration-container p {
+  color: white;
+
+}
+.registration-container a {
+  /* display: inline; */
+  /* margin-top: 10px; */
+  color: #ddd;
+  text-decoration: none;
+  font-size: 14px;
+}
+.registration-container a:hover {
+  color: rgb(0, 4, 255);
+}
+.taken{
+  color: red;
+}
 

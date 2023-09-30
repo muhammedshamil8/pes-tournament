@@ -1,11 +1,45 @@
 <?php
-session_start(); // Start the session
+// var_dump($stored_password); 
+// var_dump($password);        
+// var_dump($_POST); 
+// error_reporting(E_ALL);
+// ini_set('display_errors', '1');
+// session_start();
 
-if (isset($_SESSION['user_id'])) {
-    // User is logged in, redirect to home page
-    header("Location: home.php");
-    exit();
-}
+// if ($_SERVER["REQUEST_METHOD"] == "POST"){
+//   $username = $_POST["username"];
+//   $password = $_POST["password"];
+  
+//   require 'connect_db.php';
+//   $sql = "SELECT id, username, password FROM `login` WHERE username = '$username'";
+//    $result = $conn->query($sql);
+
+//    if ($result->num_rows == 1){
+//     $row = $result->fetch_assoc();
+//     $stored_password = trim($row["password"]);
+
+//     if ($password == $stored_password){
+
+//     //   $_SESSION["user_id"] = $row["id"];
+//       // $_SESSION["username"] = $row["username"];
+//       header("Location: register.php");
+//       exit();
+//     }else {
+//       $error_msg = "Incorrect username or password.";
+//     }
+//    }else {
+//     $error_msg = "Incorrect username or password.";
+//    }
+
+//    $conn->close();
+// }
+
+
+// if (isset($_SESSION['user_id'])) {
+//     // User is logged in, redirect to home page
+//     header("Location: home.php");
+//     exit();
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +65,7 @@ if (isset($_SESSION['user_id'])) {
         </svg></button>
     <div>
 
-        <table id="settingsCard" class="card-settings hidden">
+        <table id="settingsCard" class="card-settings hidden table-stn">
             <tr>
                 <th>
                     <h3 style="color:black;">Settings</h3>
@@ -98,11 +132,26 @@ if (isset($_SESSION['user_id'])) {
                     <div class="image">
                         <img class="logo" src="/images/logo.webp" alt="Logo">
                     </div>
-                    <div class="btn-container">
-                        <a href="signup.php"><button class="btn btn-primary">Create Account</button></a>
-                        <a href="login.php"><button class="btn btn-primary">Login Account</button></a>
+                    <div class="button-contanier">
+                    <a href="register.php"><button>Let's Get in</button></a>
+                    <div>
+                    <!-- <div class="btn-container"> -->
+                   
+  <!-- <div class="login-container">
+    <h2>Login to tournament</h2>
+    <form action="" method="post">
+      <input type="text" placeholder="Username" name="username" class="input" required>
+      <input type="password" placeholder="Password" name="password" class="input" required>
+      <button type="submit" class="btn-login">Login</button>
 
-                    </div>
+    </form>
+     <?php 
+    //  echo '<p class="error_message">' .$error_msg;'</p>'
+     ?> 
+                         <a href="signup.php"><button class="btn btn-primary">Create Account</button></a> 
+                         <a href="login.php"><button class="btn btn-primary">Login Account</button></a> 
+
+                    </div> -->
                 </div>
 
             </div>

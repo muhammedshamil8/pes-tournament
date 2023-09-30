@@ -105,5 +105,17 @@ a{
  .play-button:hover {
    background-color: #0056b3; /* Darker blue on hover */
  }
- 
+ .button-contanier button{
+   border: none;
+   margin: 15px;
+   padding: 5px 15px;
+
+   border-radius: 3px;
+   font-weight: bold;
+   background-color: #0056b3;
+   color: #fff;
+ }
+ .button-contanier button:hover{
+  background-color: #007bff;
+ }
  

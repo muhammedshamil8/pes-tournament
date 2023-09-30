@@ -7,24 +7,25 @@
 
 // echo "hello";
 session_start();
+$error_msg = "";
+$success_msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
-  $username = $_POST["username"];
+  $name = $_POST["username"];
   $password = $_POST["password"];
   
   require 'connect_db.php';
-  $sql = "SELECT id, username, password FROM users WHERE username = '$username'";
+  $sql = "SELECT user_id, name, password FROM registeration WHERE name = '$name'";
    $result = $conn->query($sql);
 
    if ($result->num_rows == 1){
     $row = $result->fetch_assoc();
     $stored_password = trim($row["password"]);
-
     if ($password == $stored_password){
 
-      $_SESSION["user_id"] = $row["id"];
+      $_SESSION["user_id"] = $row["user_id"];
       // $_SESSION["username"] = $row["username"];
-      header("Location: register.php");
+      header("Location: home.php");
       exit();
     }else {
       $error_msg = "Incorrect username or password.";
@@ -59,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 </svg></button>
 <div >
 
-<table id="settingsCard" class="card-settings hidden">
+<table id="settingsCard" class="card-settings hidden table-stn">
 <tr>
   <th><h3 style="color:black;">Settings</h3><hr></th>
 </tr>
@@ -126,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     <?php 
      echo '<p class="error_message">' .$error_msg;'</p>'
      ?>
-    <p>Don't have an account? <a href="signup.php">Sign up</a></p>
+    <p>Don't have an account?<a href="register.php"> Sign up</a></p>
   </div>
   <a href="index.php"><button class="return"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
         fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16">

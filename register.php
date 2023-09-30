@@ -6,68 +6,87 @@
 // ini_set('display_errors', '1');
 
 session_start();
-
 require "connect_db.php";
-
-// Check if the user is not logged in
-if (!isset($_SESSION['user_id'])) {
-  // Redirect to the login page if not logged in
-  header("Location: login.php");
-  exit();
-}
 
 $error_msg = "";
 $success_msg = "";
-
-$user_id = $_SESSION["user_id"];
-
-// Check if the user's user_id is already in the registration table
-$check_sql = "SELECT * FROM registeration WHERE user_id = '$user_id'";
-$result = $conn->query($check_sql);
-
+$chosen_clubs = array();
+$chosen_clubs_sql = "SELECT club FROM registeration";
+$result = $conn->query($chosen_clubs_sql);
 if ($result->num_rows > 0) {
-  // User is already registered, set the session variable and redirect to home
-  $_SESSION['registered'] = true;
-  header("Location: home.php");
-  exit();
+    while ($row = $result->fetch_assoc()) {
+        $chosen_clubs[] = $row['club'];
+    }
 }
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $user_id = $_SESSION["user_id"];
-  $full_name = mysqli_real_escape_string($conn, $_POST['full_name']);
-  $age = mysqli_real_escape_string($conn, $_POST['age']);
-  $phone_number = mysqli_real_escape_string($conn, $_POST['phone_number']);
-  $club = mysqli_real_escape_string($conn, $_POST['club']);
-  // $clubName = isset($_POST['club']) ? $_POST['club'] : ""; // Retrieve the selected clubname
-
-  $check_club_sql = "SELECT * FROM registeration WHERE club = '$club'";
-  $result = $conn->query($check_club_sql);
-  if ($result->num_rows > 0) {
-    $error_msg = "Club is already taken. Please choose a different Club.";
+  $name = $_POST["name"];
+  $full_name = $_POST["full_name"];
+  $age = ($_POST['age']);
+  $phone_number = ($_POST['phone_number']);
+  // Check if 'club' is set and not an empty string
+  if (isset($_POST['club']) && $_POST['club'] !== '') {
+    $club = ($_POST['club']);
   } else {
-    // Additional input validation
-    if (!is_numeric($age) || $age <= 0) {
-      $error_msg = "Age must be a positive number.";
-    } elseif (!preg_match("/^[0-9+]+$/", $phone_number)) {
-      $error_msg = "Phone number must contain only numbers and the plus sign.";
-    } else {
-      // $sql = "INSERT INTO registeration (user_id, full_name, age, phone_number, club, club_text) VALUES ('$user_id', '$full_name', '$age', '$phone_number', '$club','$clubText')";
-      $sql = "INSERT INTO registeration (user_id, full_name, age, phone_number, club) VALUES ('$user_id', '$full_name', '$age', '$phone_number', '$club')";
+    // Handle the case when 'club' is not selected
+    $error_msg = "Please select a club.";
+    // You might want to redirect or display an error message in this case
+    // For now, we'll stop processing further
+    exit();
+  }
+  $password = $_POST["password"];
+  $confirm_password = $_POST["confirm_password"];
 
-      if ($conn->query($sql) === TRUE) {
-        // Set the 'registered' session variable to true upon successful registration
-        $_SESSION['registered'] = true;
-        $success_msg = "Registration successful!";
-        header("Location: home.php");
-        exit();
+  if ($password !== $confirm_password) {
+    $error_msg = "Password and Confirm Password do not match.";
+
+  } else {
+    /* else {
+      $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    */
+
+
+    $check_club_sql = "SELECT * FROM registeration WHERE club = '$club'";
+    $result = $conn->query($check_club_sql);
+    $check_username_sql = "SELECT * FROM registeration WHERE name = '$name'";
+    $result = $conn->query($check_username_sql);
+    if ($result->num_rows > 0) {
+      $error_msg = "Username is already taken. Please choose a different username.";
+    } else {
+
+      if ($result->num_rows > 0) {
+        $error_msg = "Club is already taken. Please choose a different Club.";
       } else {
-        $error_msg = "Error: " . $sql . "<br>" . $conn->error;
+        if (!is_numeric($age) || $age <= 0) {
+          $error_msg = "Age must be a positive number.";
+        } elseif (!preg_match("/^[0-9]+$/", $phone_number)) {
+          $error_msg = "Phone number must contain only numbers.";
+        } else {
+
+          $sql = "INSERT INTO registeration (name,full_name,age,phone_number,club, password) VALUES ('$name','$full_name','$age', '$phone_number','$club','$password')";
+          //'$hashed_password'
+          if ($conn->query($sql) === TRUE) {
+            // Set the 'registered' session variable to true upon successful registration
+            $_SESSION['registered'] = true;
+            $success_msg = "Registration successful!";
+            header("Location: home.php");
+            exit();
+          } else {
+            $error_msg = "Error: " . $sql . "<br>" . $conn->error;
+          }
+          $conn->close();
+        }
       }
     }
-
-    $conn->close();
   }
 }
+
+// Check if the user is not logged in
+// if (!isset($_SESSION['user_id'])) {
+//   // Redirect to the login page if not logged in
+//   header("Location: login.php");
+//   exit();
+// }
+
 ?>
 
 <!DOCTYPE html>
@@ -92,7 +111,7 @@ heloo
     </svg></button>
   <div>
 
-    <table id="settingsCard" class="card-settings hidden">
+    <table id="settingsCard" class="card-settings hidden table-stn">
       <tr>
         <th>
           <h3 style="color:black;">Settings</h3>
@@ -165,13 +184,53 @@ heloo
   <div class="registration-container">
     <h2>Football Registration</h2>
     <form id="registration-form" action="" method="post">
+      <input type="text" placeholder="User Name" name="name" class="input" required>
       <input type="text" placeholder="Full Name" name="full_name" class="input" required>
       <input type="number" placeholder="Age" name="age" class="input" min="1" required>
-      <input type="tel" placeholder="Whatsapp Number" name="phone_number" class="input" min="9" pattern="[0-9+]+"
+      <input type="tel" placeholder="Whatsapp Number" name="phone_number" class="input" min="9" pattern="[0-9+]"
         required>
-      <input type="hidden" id="club_text" name="club_text" value="">
-      <select class="select" name="club" required>
-        <option value="Select Your club" disabled selected>Select Your club</option>
+
+        <select class="select" name="club" required>
+        <option value="" disabled <?php if (!isset($_POST['club'])) echo 'selected'; ?>>Select Your club</option>
+        <?php
+        $club_names = array(
+            "Paris Saint-Germain",
+            "FC Barcelona",
+            "Real Madrid",
+            "Manchester United",
+            "Manchester City",
+            "Benfica",
+            "Napoli",
+            "AC milan",
+            "Arsenal",
+            "Chelsea",
+            "New Castle",
+            "Bayern",
+            "Juventus",
+            "Inter milan",
+            "Athletico madrid",
+            "Liverpool"
+        );
+
+        // Fetch the clubs that have already been chosen
+       
+
+        // Display options with appropriate status
+        for ($i = 1; $i <= count($club_names); $i++) {
+            $club_name = $club_names[$i - 1];
+            $is_disabled = in_array($i, $chosen_clubs) ? 'disabled class="taken" ' : '';
+            $selected = isset($_POST['club']) && $_POST['club'] == $i ? 'selected' : '';
+            echo '<option value="' . $i . '" ' . $is_disabled . ' ' . $selected . '>' . $club_name . '</option>';
+        }
+        ?>
+    </select>
+
+    
+
+
+<!-- 
+       <select class="select" name="club" required>
+    <option value="" disabled selected>Select Your club</option>
         <option value="1">Paris Saint-Germain</option>
         <option value="2">FC barcelona</option>
         <option value="3">Real madrid</option>
@@ -190,32 +249,28 @@ heloo
         <option value="16">Liverpool</option>
 
 
-      </select>
+      </select> -->
+
+      <input type="password" placeholder="Password" name="password" class="input" required>
+      <input type="password" placeholder="confirm password" name="confirm_password" class="input" required>
+
       <button type="submit">Submit</button>
+      <P>Already registered ? <a href="login.php">sign in</a></p>
       <?php
       echo '<p class="success_message">' . $success_msg . '</p>';
       echo '<p class="error_message">' . $error_msg . '</p>';
       ?>
     </form>
   </div>
+
+  <a href="index.php"><button class="return"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+        fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+          d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+      </svg></button></a>
   <script src="/script/general.js"></script>
   <script>
-    document.getElementById("registration-form").addEventListener("submit", function (event) {
-      event.preventDefault(); // Prevent the default form submission
 
-      // Get the selected option
-      var clubSelect = document.querySelector('select[name="club"]');
-      var selectedOption = clubSelect.options[clubSelect.selectedIndex];
-
-      // Get the data-clubname attribute value
-      var clubName = selectedOption.getAttribute("data-clubname");
-
-      // Set the value of the hidden input field for club_text
-      document.getElementById("club_text").value = clubName;
-
-      // Now you can submit the form
-      this.submit();
-    });
 
   </script>
 </body>
