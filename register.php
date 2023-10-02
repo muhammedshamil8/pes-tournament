@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       } else {
         if (!is_numeric($age) || $age <= 0) {
           $error_msg = "Age must be a positive number.";
-        } elseif (!preg_match("/^[0-9]+$/", $phone_number)) {
+        } elseif (!preg_match("/^[0-9+]+$/", $phone_number)) {
           $error_msg = "Phone number must contain only numbers.";
         } else {
 
@@ -187,7 +187,7 @@ heloo
       <input type="text" placeholder="User Name" name="name" class="input" required>
       <input type="text" placeholder="Full Name" name="full_name" class="input" required>
       <input type="number" placeholder="Age" name="age" class="input" min="1" required>
-      <input type="tel" placeholder="Whatsapp Number" name="phone_number" class="input" min="9" pattern="[0-9+]"
+      <input type="tel" placeholder="Whatsapp Number" name="phone_number" class="input" pattern="\+?[0-9]{10}"
         required>
 
         <select class="select" name="club" required>
@@ -248,9 +248,11 @@ heloo
         <option value="15">Athletico madrid</option>
         <option value="16">Liverpool</option>
 
-
       </select> -->
 
+      <!-- <select class="select" name="tournament" >
+    <option value="1" selected>E-football</option>
+      </select> -->
       <input type="password" placeholder="Password" name="password" class="input" required>
       <input type="password" placeholder="confirm password" name="confirm_password" class="input" required>
 

@@ -1,146 +1,273 @@
-body{
-   background-image: url('/images/e-football.jpg');
-background-repeat: no-repeat;
-background-size: cover;
-background-position: center ;
-background-attachment: fixed;
-    margin: 0;
-    /* margin-top: 100px; */
-
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+body {
+     background-image: url('/images/e-football.jpg');
+     background-repeat: no-repeat;
+     background-size: cover;
+     background-position: center;
+     background-attachment: fixed;
+     margin: 0;
+     padding: 0;
+     
 }
 
-header{
-   background-image: linear-gradient(to right,rgb(72, 255, 0),rgb(0, 177, 231) ,rgb(163, 8, 8));
-   /* background-image: linear-gradient(to top,rgba(238, 255, 0, 0.514),rgba(0, 38, 255, 0.514) ); */
-   /* background-color: #fff; */
-   top: 0;
-   height: 50px;
-   position: fixed;
-   width: 100%;
-   display: flex;
-   justify-content: space-around;
-   flex-direction: row;
-   align-items: center;
-   /* border-bottom: 1px solid #000000; */
-   /* box-shadow: inset 0px -3px 3px 0px rgb(236, 238, 110); */
-   z-index:100;
+header {
+     background-color: #1e272e;
+     top: 0;
+     height: 60px;
+     position: fixed;
+     width: 100%;
+     display: flex;
+     justify-content: space-around;
+     align-items: center;
+     padding: 0 20px;
+     z-index: 100;
 }
-.nav-img{
-   margin-left: 40px;
-   margin-right: 10px;
-color: blue;
-   height: 20px;
-   width: 20px;
-   border-radius: 10px;
-}
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-.card1{
-   border-radius: 10px;
-   margin-top: 100px;
-   height: 600px;
-    width: 380px; 
-  padding: 20px;
-  background-color: #ffffffad;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+.nav-img {
+     height: 30px;
+     width: 30px;
+     border-radius: 50%;
 
 }
-.card1-1{
-   text-align:center;
-}
-.team-logo{
-   height: 240px;
-   width: 200px;
-   border-radius: 100px;
-}
-#card2{
-   border-radius: 10px;
-   margin-top: 200px;
-    width: 380px; 
-   /* height: 680px; */
-display: flex;
-align-items: center;
-  padding: 20px;
-  background-color: #ffffff9c;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  margin-bottom: 1000px;
-  flex-direction: column;
 
+header button {
+     border: none;
+     height: 30px;
+     width: 30px;
+     border-radius: 20px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background-color: transparent;
 }
-iframe {
-   border: none; /* Remove the iframe border */
-   width: 95%; /* Make the iframe take the full width of its container */
-   height: 400px; /* Make the iframe take the full height of its container */
+
+header button:hover {
+     background-color: #2980b9;
 }
-.info{
-   float: left;
+
+.container1 {
+     /* display: flex; */
+     /* text-align: center; */
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     margin: 50px 0;
 }
-.match-team-image{
-   height: 65px;
-   width: 45px;
-   border-radius: 10px;
-   transition:0.8s ;
-}
-.match-team-image:hover{
-   transform: scale(1.2);
+
+.welcome-p {
+     text-align: center;
+     color: white;
+     margin: 50px 0;
 
 }
 
 
-/* <ul class="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
-  <li class="nav-item" role="presentation">
-    <button class="nav-link active rounded-5" id="home-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="true">Home</button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link rounded-5" id="profile-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Profile</button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link rounded-5" id="contact-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Contact</button>
-  </li>
-</ul> */
+.card1,
+.card2,
+.card3 {
+     border-radius: 15px;
+     margin: 20px;
+     padding: 20px;
+     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
 
-.form-card{
-display: flex;
-align-items: center;
-justify-content: center;
-text-align: center;
-/* border: 1px solid #ddd; */
-border: none;
-width: 20em;
-padding: 10px;
+
+/* card 1 */
+.card1 {
+     background-color: #fbc531;
+     max-width: 400px;
+     width: 100%;
+     display: flex;
+     display: none;
+     flex-direction: column;
+     flex-wrap: wrap;
+     gap: 12;
+     column-gap: 20px;
+     align-items: center;
+     justify-content: center;
 }
-.match-team-image{
-height: 95px;
-width: 75px;
-border-radius: 10px;
-transition:0.8s ;
-margin: 15px;
+
+.team-logo {
+     height: 240px;
+     /* width: calc(100%-10px); */
+     width: 200px;
+     border-radius: 10px;
+     /* background-color: #2980b9; */
+     padding: 10px;
 }
-.match-team-image:hover{
-transform: scale(0.85);
+
+.team-logo img {
+     height: 100%;
+     width: 100%;
+}
+
+.card1-1 {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+}
+
+.card1-1,
+.info {
+     flex: 1;
+     /* Equal flex-grow for both, they'll take equal space */
+     width: 100%;
+     /* Take up full width */
+     max-width: 100%;
+     /* Take up full width */
+}
+
+.card1-1 p {
+     text-align: center;
+}
+
+.info p {
+     color: red;
+}
+
+@media(min-width: 768px) {
+     .card1 {
+          flex-direction: row;
+          /* Change to row layout on larger screens */
+     }
+}
+
+/* card 2 */
+.card2 {
+     background-color: #44bd32;
+     max-width: 400px;
+     width: 100%;
+     display: none;
+}
+
+.card2 h2 {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     color: #141435;
+}
+
+.match-flex {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+}
+
+.card2-matches-details {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     flex-direction: column;
+}
+
+.match-info {
+     display: flex;
+     align-items: center;
+     justify-content: center;
 
 }
-/* .match-info{
-   display: inline;
-} */
-h4{
-   display: inline;
+
+.match-info h4 {
+     margin: 0px 10px;
 }
-hr{
-   width: 220px;
+
+.match-team-card {
+     height: 75px;
+     width: 60px;
+     padding: 5px;
+     border-radius: 10px;
+     text-align: center;
+
+     background-color: red;
 }
-.line-hr{
+
+.match-team-card p {
+     font-size: 8px;
+     font-weight: bold;
+     color: #ff0000;
+}
+
+.match-team-image {
+     height: 100%;
+     width: 100%;
+     transition: 0.8s;
+     cursor: pointer;
+}
+
+.match-team-image:hover {
+     transform: scale(1.15);
+
+}
+
+.col{
+     display: flex;
+     align-items: center;
+     justify-content: center;
+}
+
+/* card 3 */
+.card3 {
+     background-color: #2980b9;
+     max-width: 800px;
+     width: 100%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     flex-direction: column;
+
+}
+.match-team--intable{
+     height: 30px;
+     width: 30px;
+     text-align: center;
+}
+.match-team-image-intable{
+     height: 100%;
+     width: 100%;
+}
+.match-team--intable p{
+     font-size: 5px;
+     font-weight: bold;
+}
+.table-league{
+     background-color: #f9f9f9;
+     width: 100%;
+     border-collapse: collapse;
+}
+.user-club-row{
+background-color:#44bd32;
+}
+.table-league th, .table-league td {
+     border: 1px solid #ccc;
+     padding: 10px;
+     text-align: left;
+ }
+ .table-league th {
+     background-color: #f0f0f0;
+ }
+
+.user-registration-table {
+     margin-top: 20px;
+     padding: 20px;
+     background-color: #f9f9f9;
+     border-radius: 10px;
+ }
  
-      border-top: 8px solid #000000; 
-      margin: 20px 0; 
-  
-}
+ .table-registration {
+     width: 100%;
+     border-collapse: collapse;
+ }
+ 
+ .table-registration th, .table-registration td {
+     border: none;
+     padding: 10px;
+     text-align: left;
+ }
+ 
+ 
+ .head-td{
+color: red;
+ }
+ .child-td{
+color: green;
+ }

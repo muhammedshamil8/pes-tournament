@@ -1,0 +1,347 @@
+body {
+   background-image: url('/images/e-football.jpg');
+   background-repeat: no-repeat;
+   background-size: cover;
+   background-position: center;
+   /* background-attachment: fixed; */
+   margin: 0;
+   padding: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+
+   header {
+      background-image: linear-gradient(to right, rgb(72, 255, 0), rgb(0, 177, 231), rgb(163, 8, 8));
+      /* background-image: linear-gradient(to top,rgba(238, 255, 0, 0.514),rgba(0, 38, 255, 0.514) ); */
+      /* background-color: #fff; */
+      top: 0;
+      height: 50px;
+      position: fixed;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      flex-direction: row;
+      align-items: center;
+      /* border-bottom: 1px solid #000000; */
+      /* box-shadow: inset 0px -3px 3px 0px rgb(236, 238, 110); */
+      z-index: 100;
+   }
+
+   header a {
+      cursor: pointer;
+   }
+
+   .nav-img {
+      margin-left: 40px;
+      margin-right: 10px;
+      color: blue;
+      height: 20px;
+      width: 20px;
+      border-radius: 10px;
+   }
+
+   .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+   }
+
+   .card1 {
+      border-radius: 10px;
+      margin: 20px;
+      margin-top: 80px;
+      min-height: 500px;
+      height: 550px;
+      width: 380px;
+      max-width: 400px;
+      padding: 20px;
+      background-color: #ffffffad;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+   }
+
+   .card1-1 {
+      text-align: center;
+   }
+
+   .team-logo {
+      height: 240px;
+      width: 200px;
+      border-radius: 100px;
+   }
+
+   .card2 {
+
+      border-radius: 10px;
+      margin: 20px;
+      margin-top: 80px;
+      width: 380px;
+      /* height: 680px; */
+      /* display: flex; */
+      display: none;
+      align-items: center;
+      padding: 20px;
+      background-color: #ffffff9c;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      margin-bottom: 1000px;
+      flex-direction: column;
+
+   }
+
+
+   iframe {
+      border: none;
+      /* Remove the iframe border */
+      width: 95%;
+      /* Make the iframe take the full width of its container */
+      height: 400px;
+      /* Make the iframe take the full height of its container */
+   }
+
+   .info {
+      float: left;
+   }
+
+   .match-team-image {
+      height: 65px;
+      width: 45px;
+      border-radius: 10px;
+      transition: 0.8s;
+   }
+
+   .match-team-image:hover {
+      transform: scale(1.2);
+
+   }
+
+
+   /* <ul class="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
+   <li class="nav-item" role="presentation">
+      <button class="nav-link active rounded-5" id="home-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="true">Home</button>
+   </li>
+   <li class="nav-item" role="presentation">
+      <button class="nav-link rounded-5" id="profile-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Profile</button>
+   </li>
+   <li class="nav-item" role="presentation">
+      <button class="nav-link rounded-5" id="contact-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Contact</button>
+   </li>
+   </ul> */
+
+   .form-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      /* border: 1px solid #ddd; */
+      border: none;
+      width: 20em;
+      padding: 10px;
+   }
+
+   .match-team-image {
+      height: 95px;
+      width: 75px;
+      border-radius: 10px;
+      transition: 0.8s;
+      margin: 15px;
+   }
+
+   .match-team-image:hover {
+      transform: scale(0.85);
+
+   }
+
+   /* .match-info{
+      display: inline;
+   } */
+   h4 {
+      display: inline;
+   }
+
+   hr {
+      width: 220px;
+   }
+
+   .line-hr {
+      width: 50%;
+      border-top: 8px solid #000000;
+      margin: 20px 0;
+
+   }
+
+   .center-hr {
+      width: 100%;
+      left: 50px;
+   }
+
+ 
+/* Table styles */
+.card3 {
+   /* background: rgba(255, 255, 255, 0.9); */
+   padding: 20px;
+   border-radius: 10px;
+   display: none;
+   margin: 20px auto;
+ }
+ 
+ h2 {
+   text-align: center;
+   margin-bottom: 20px;
+ }
+ 
+ .table-club {
+   width: 100%;
+   border-collapse: collapse;
+   margin-top: 80px;
+ }
+ 
+ .table-club th, .table-club td {
+   border: 1px solid #ddd;
+   padding: 15px;
+   text-align: center;
+ }
+ 
+ .table-club th {
+   background-color: #f2f2f2;
+ }
+ 
+ .table-club tr:nth-child(even) {
+   background-color: #f9f9f9c2;
+ }
+ .table-club tr:nth-child(odd) {
+   background-color: #aca8a8e5;
+ }
+ 
+ /* Club logo styles */
+ .club-logo {
+   display: flex;
+   align-items: center;
+ }
+ 
+ .team-logo-table {
+   height: 30px;
+   width: 30px;
+   margin-right: 10px;
+   border-radius: 50%;
+ }
+ 
+ .table-club h3 {
+   font-size: 12px;
+   font-weight: bold;
+   margin: 0;
+ }
+ 
+ /* .card4,.card5{
+display: block;
+ } */
+
+
+ /* 
+<section class="card3">
+      <h2>eFootball Score Table</h2>
+      <table class="table-club">
+        <tr>
+          <th>Club</th>
+          <th>Matches Played</th>
+          <th>Wins</th>
+          <th>Draws</th>
+          <th>Losses</th>
+          <th>Score</th>
+          <th>Points</th>
+        </tr>
+
+
+        <?php
+        while ($row = $result_result->fetch_assoc()) {
+          $club = $row['club'];
+          $matchesPlayed = $row['matches_played'];
+          $wins = $row['wins'];
+          $draws = $row['draws'];
+          $losses = $row['losses'];
+          $score = $row['score'];
+          $points = $row['points'];
+
+          // Set image and clubName based on the club ID
+          if ($club == "1") {
+            $image = 'images/psg.webp';
+            $clubName = "P-S-G";
+          } else if ($club == "2") {
+            $image = 'images/Fcb.webp';
+            $clubName = "FC barcelona";
+          } else if ($club == "3") {
+            $image = 'images/real_madrid.webp';
+            $clubName = "Real madrid";
+          } else if ($club == "4") {
+            $image = 'images/Manchester-United-Logo.webp';
+            $clubName = "Manchester United";
+          } else if ($club == "5") {
+            $image = 'images/m-city.webp';
+            $clubName = "Manchester City ";
+          } else if ($club == "6") {
+            $image = 'images/benfica.webp';
+            $clubName = "Benfica";
+          } else if ($club == "7") {
+            $image = 'images/napoli.webp';
+            $clubName = "Napoli";
+          } else if ($club == "8") {
+            $image = 'images/ac-milan-logo.webp';
+            $clubName = "AC milan";
+          } else if ($club == "9") {
+            $image = 'images/arsenal-logo-0.webp';
+            $clubName = "Arsenal";
+          } else if ($club == "10") {
+            $image = 'images/Chelsea-Logo.webp';
+            $clubName = "Chelsea";
+          } else if ($club == "11") {
+            $image = 'images/new-castle.webp';
+            $clubName = "New Castle";
+          } else if ($club == "12") {
+            $image = 'images/bayern.webp';
+            $clubName = "Bayern";
+          } else if ($club == "13") {
+            $image = 'images/logo-de-juventus.webp';
+            $clubName = "Juventus";
+          } else if ($club == "14") {
+            $image = 'images/new-castle.webp';
+            $clubName = "Inter milan";
+          } else if ($club == "15") {
+            $image = 'images/inter-logo.webp';
+            $clubName = "Inter milan";
+          } else if ($club == "16") {
+            $image = 'images/liverpool-fc-logo.webp';
+            $clubName = "Liverpool";
+          } else {
+            $image_url = "";
+            $clubName = "Team name";
+          }
+          // ... Add similar conditions for other clubs
+          echo "<tr>
+                  <td>
+                      <div class='club-dp'>
+                          <img class='team-logo-table' src='$image' alt='club logo'>
+                          <h3>$clubName</h3>
+                      </div>
+                  </td>
+                  <td>$matchesPlayed</td>
+                  <td>$wins</td>
+                  <td>$draws</td>
+                  <td>$losses</td>
+                  <td>$score</td>
+                  <td>$points</td>
+              </tr>";
+        }
+        ?>
+
+
+
+      </table>
+    </section>
+
+
+
+ 
+ */
+ 
