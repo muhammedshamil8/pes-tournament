@@ -56,7 +56,22 @@ if ($result_users->num_rows == 1 && $result_registration->num_rows > 0) {
     $age = $row['age'];
     $phone_number = $row['phone_number'];
     $club = $row['club'];
+    $tournament_id = $row['tournament_id'];
 
+      // Get the tournament name using the tournament_id
+        $query_tournament_name = "SELECT tournament_name FROM tournament WHERE tournament_id = $tournament_id";
+        $result_tournament_name = $conn->query($query_tournament_name);
+
+        if ($result_tournament_name->num_rows > 0) {
+            $row_tournament = $result_tournament_name->fetch_assoc();
+            $tournament_name = $row_tournament['tournament_name'];
+
+            // Display the tournament name
+           
+        } else {
+            echo "Tournament not found.";
+        }
+      
     // Additional improvement: Use a switch case to determine club information
     switch ($club) {
       case "1":
@@ -210,7 +225,7 @@ if ($result_users->num_rows == 1 && $result_registration->num_rows > 0) {
         <!-- <input type="range" max="10" min="0" style=""/> -->
         <audio autoplay loop controls class="aduio-btn">
           <source src="/home/ajad/work/pes/images/pes.mp3" type="audio/mpeg">
-          <source src="images/pes2.mp3" type="audio/ogg">
+          <source src="images/pes.mp3" type="audio/ogg">
         </audio>
       </td>
     </tr>
@@ -243,12 +258,15 @@ if ($result_users->num_rows == 1 && $result_registration->num_rows > 0) {
     </tr>
   </table>
 
+  <div id="loading-overlay2">
+  <div class="spinner"></div>
+</div>
 
-  <div class="welcome-p">
     <?php
-    echo $welcome;
+ 
+  echo "  <div class='welcome-p'>$welcome </div>";
     ?>
-  </div>
+  
   <div class="container1">
 
 
@@ -269,6 +287,12 @@ if ($result_users->num_rows == 1 && $result_registration->num_rows > 0) {
 
             </thead>
             <tbody>
+            <tr>
+                <td class="head-td">Tournament Name</td>
+                <td class="child-td">
+                  <?php echo $tournament_name; ?>
+                </td>
+              </tr>
               <tr>
                 <td class="head-td">Full Name</td>
                 <td class="child-td">
@@ -293,11 +317,12 @@ if ($result_users->num_rows == 1 && $result_registration->num_rows > 0) {
                   <?php echo $clubName; ?>
                 </td>
               </tr>
+             
             </tbody>
           </table>
         </div>
 
-
+       
       </div>
 
     </section>
@@ -417,7 +442,8 @@ if ($result_users->num_rows == 1 && $result_registration->num_rows > 0) {
 
         <?php
         // Fetch league table data and populate the table section
-        $query_table = "SELECT * FROM league_table ORDER BY points DESC";
+        $query_table = "SELECT * FROM league_table WHERE tournament_id = $tournament_id ORDER BY points DESC";
+
         $result_table = $conn->query($query_table);
 
         if ($result_table->num_rows > 0) {

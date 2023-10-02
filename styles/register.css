@@ -53,4 +53,10 @@
 .taken{
   color: red;
 }
+form select{
+background-color: white;
+}
+.error_message{
+  color: red;
 
+}

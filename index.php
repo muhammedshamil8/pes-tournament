@@ -9,7 +9,7 @@
 // if ($_SERVER["REQUEST_METHOD"] == "POST"){
 //   $username = $_POST["username"];
 //   $password = $_POST["password"];
-  
+
 //   require 'connect_db.php';
 //   $sql = "SELECT id, username, password FROM `login` WHERE username = '$username'";
 //    $result = $conn->query($sql);
@@ -128,16 +128,21 @@
 
             <div class="container1">
                 <div class="card1">
-                    <h1>Welcome to eFootball</h1>
+                    <h1>WeLcOmE tO eFoOtBaLl</h1>
                     <div class="image">
                         <img class="logo" src="/images/logo.webp" alt="Logo">
                     </div>
+                    <div class="button-contanier-head">
+                        <button disabled>Let's Get in</button></a>
+                    </div>
                     <div class="button-contanier">
-                    <a href="register.php"><button>Let's Get in</button></a>
-                    <div>
+                        <a href="register.php"><button>Player</button></a>
+
+                        <a href="admin.php"><button>Organizer</button></a>
+                    </div>
                     <!-- <div class="btn-container"> -->
-                   
-  <!-- <div class="login-container">
+
+                    <!-- <div class="login-container">
     <h2>Login to tournament</h2>
     <form action="" method="post">
       <input type="text" placeholder="Username" name="username" class="input" required>
@@ -145,8 +150,8 @@
       <button type="submit" class="btn-login">Login</button>
 
     </form>
-     <?php 
-    //  echo '<p class="error_message">' .$error_msg;'</p>'
+     <?php
+     //  echo '<p class="error_message">' .$error_msg;'</p>'
      ?> 
                          <a href="signup.php"><button class="btn btn-primary">Create Account</button></a> 
                          <a href="login.php"><button class="btn btn-primary">Login Account</button></a> 
@@ -157,7 +162,9 @@
             </div>
         </main>
 
-
+        <div id="loading-overlay">
+            <div class="spinner"></div>
+        </div>
         <script src="/script/general.js"></script>
 
 </body>

@@ -18,7 +18,7 @@ margin: 0;
 
 h1{
    display: block;
-   
+   /* text-transform: uppercase; */
 }
 
 .container1 {
@@ -109,7 +109,7 @@ a{
    border: none;
    margin: 15px;
    padding: 5px 15px;
-
+min-width: 110px;
    border-radius: 3px;
    font-weight: bold;
    background-color: #0056b3;
@@ -118,4 +118,14 @@ a{
  .button-contanier button:hover{
   background-color: #007bff;
  }
- 
+ .button-contanier-head button{
+   border: none;
+   margin: 15px;
+   padding: 5px 15px;
+
+   border-bottom-left-radius: 10px;
+   border-top-right-radius: 10px;
+   font-weight: bold;
+   background-color: #192a3d;
+   color: #fff;
+ }

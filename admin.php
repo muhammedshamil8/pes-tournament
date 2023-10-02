@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      if ($result->num_rows == 1) {
           // Admin is authenticated
           $_SESSION['admin_username'] = $username;
-          header("Location: tournament.php"); // Redirect to the admin dashboard
+          header("Location: admin_home.php"); // Redirect to the admin dashboard
      } else {
           $error_msg = "Invalid details. Please try again.";
      }
@@ -30,24 +30,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      <title>Admin Login</title>
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles/general.css">
+
+
      <style>
-          body {
-               font-family: Arial, sans-serif;
-               background-color: #f9f9f9;
-               margin: 0;
-               padding: 0;
-               display: flex;
-               justify-content: center;
-               align-items: center;
-               height: 100vh;
-          }
+         body {
+   font-family: Arial, sans-serif;
+   background-image: url('/images/pes.jpg');
+   background-repeat: no-repeat;
+   background-size: cover; 
+   /* background-position: center center;  */
+   font-family: 'Roboto Condensed', sans-serif;
+   min-height: 100vh; 
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+margin: 0;
+}
 
           .card {
                width: 350px;
-               padding: 20px;
+               padding: 30px;
                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                border-radius: 10px;
-               background-color: white;
+               backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+               background-color: rgba(0, 0, 0, 0.1);
                text-align: center;
           }
 
@@ -86,6 +95,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                <?php echo $error_msg ?>
           </form>
      </div>
+
+
+     <a href="index.php"><button class="return"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+        fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+          d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+      </svg></button></a>
+      <div id="loading-overlay">
+  <div class="spinner"></div>
+</div>
+<script src="/script/general.js"></script>
+
 </body>
 
 </html>

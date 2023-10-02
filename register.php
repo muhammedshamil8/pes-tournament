@@ -1,9 +1,9 @@
 <?php
-// var_dump($stored_password);
-// var_dump($password);
-// var_dump($_POST);
-// error_reporting(E_ALL);
-// ini_set('display_errors', '1');
+var_dump($stored_password);
+var_dump($password);
+var_dump($_POST);
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 session_start();
 require "connect_db.php";
@@ -14,15 +14,17 @@ $chosen_clubs = array();
 $chosen_clubs_sql = "SELECT club FROM registeration";
 $result = $conn->query($chosen_clubs_sql);
 if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $chosen_clubs[] = $row['club'];
-    }
+  while ($row = $result->fetch_assoc()) {
+    $chosen_clubs[] = $row['club'];
+  }
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $name = $_POST["name"];
   $full_name = $_POST["full_name"];
   $age = ($_POST['age']);
   $phone_number = ($_POST['phone_number']);
+  $tournament_name2 = isset($_POST['tournament_name2']) ? $_POST['tournament_name2'] : '';
+
   // Check if 'club' is set and not an empty string
   if (isset($_POST['club']) && $_POST['club'] !== '') {
     $club = ($_POST['club']);
@@ -45,16 +47,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     */
 
 
-    $check_club_sql = "SELECT * FROM registeration WHERE club = '$club'";
-    $result = $conn->query($check_club_sql);
-    $check_username_sql = "SELECT * FROM registeration WHERE name = '$name'";
+    $check_duplicate_sql = "SELECT * FROM registeration WHERE club = '$club' AND tournament_id = '$tournament_name2'";
+    $result_duplicate = $conn->query($check_duplicate_sql);
+    $check_username_sql = "SELECT * FROM registeration WHERE name = '$name'AND tournament_id = '$tournament_name2'";
     $result = $conn->query($check_username_sql);
+    $_SESSION["user_id"] = $row["user_id"];
     if ($result->num_rows > 0) {
       $error_msg = "Username is already taken. Please choose a different username.";
     } else {
 
-      if ($result->num_rows > 0) {
-        $error_msg = "Club is already taken. Please choose a different Club.";
+      if ($result_duplicate->num_rows > 0) {
+        $error_msg = "This club has already been chosen for the selected tournament. Please choose a different club.";
       } else {
         if (!is_numeric($age) || $age <= 0) {
           $error_msg = "Age must be a positive number.";
@@ -62,7 +65,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $error_msg = "Phone number must contain only numbers.";
         } else {
 
-          $sql = "INSERT INTO registeration (name,full_name,age,phone_number,club, password) VALUES ('$name','$full_name','$age', '$phone_number','$club','$password')";
+          $sql = "INSERT INTO registeration (name, full_name, age, phone_number, club, password, tournament_id) 
+        VALUES ('$name', '$full_name', '$age', '$phone_number', '$club', '$password', '$tournament_name2')";
+
           //'$hashed_password'
           if ($conn->query($sql) === TRUE) {
             // Set the 'registered' session variable to true upon successful registration
@@ -187,48 +192,65 @@ heloo
       <input type="text" placeholder="User Name" name="name" class="input" required>
       <input type="text" placeholder="Full Name" name="full_name" class="input" required>
       <input type="number" placeholder="Age" name="age" class="input" min="1" required>
-      <input type="tel" placeholder="Whatsapp Number" name="phone_number" class="input" pattern="\+?[0-9]{10}"
-        required>
+      <input type="tel" placeholder="Whatsapp Number" name="phone_number" class="input" pattern="\+?[0-9]{10}" required>
 
-        <select class="select" name="club" required>
-        <option value="" disabled <?php if (!isset($_POST['club'])) echo 'selected'; ?>>Select Your club</option>
+      <select class="select" name="club" required>
+        <option value="" disabled <?php if (!isset($_POST['club']))
+          echo 'selected'; ?>>Select Your club</option>
         <?php
         $club_names = array(
-            "Paris Saint-Germain",
-            "FC Barcelona",
-            "Real Madrid",
-            "Manchester United",
-            "Manchester City",
-            "Benfica",
-            "Napoli",
-            "AC milan",
-            "Arsenal",
-            "Chelsea",
-            "New Castle",
-            "Bayern",
-            "Juventus",
-            "Inter milan",
-            "Athletico madrid",
-            "Liverpool"
+          "Paris Saint-Germain",
+          "FC Barcelona",
+          "Real Madrid",
+          "Manchester United",
+          "Manchester City",
+          "Benfica",
+          "Napoli",
+          "AC milan",
+          "Arsenal",
+          "Chelsea",
+          "New Castle",
+          "Bayern",
+          "Juventus",
+          "Inter milan",
+          "Athletico madrid",
+          "Liverpool"
         );
 
         // Fetch the clubs that have already been chosen
-       
+        
 
         // Display options with appropriate status
         for ($i = 1; $i <= count($club_names); $i++) {
-            $club_name = $club_names[$i - 1];
-            $is_disabled = in_array($i, $chosen_clubs) ? 'disabled class="taken" ' : '';
-            $selected = isset($_POST['club']) && $_POST['club'] == $i ? 'selected' : '';
-            echo '<option value="' . $i . '" ' . $is_disabled . ' ' . $selected . '>' . $club_name . '</option>';
+          $club_name = $club_names[$i - 1];
+          $is_disabled = in_array($i, $chosen_clubs) ? ' class="taken" ' : '';
+          $selected = isset($_POST['club']) && $_POST['club'] == $i ? 'selected' : '';
+          echo '<option value="' . $i . '" ' . $is_disabled . ' ' . $selected . '>' . $club_name . '</option>';
         }
         ?>
-    </select>
+      </select>
+      <select class="select" name="tournament_name2" required>
+        <option value="" disabled selected>Select Your Tournament Name</option>
+        <?php
+        // Fetch tournament names
+        $tournament_names = [];
+        $tournament_query = "SELECT tournament_id, tournament_name FROM tournament";
+        $tournament_result = $conn->query($tournament_query);
 
-    
+        if ($tournament_result) {
+          while ($row = $tournament_result->fetch_assoc()) {
+            echo '<option value="' . $row['tournament_id'] . '">' . $row['tournament_name'] . '</option>';
+          }
+        } else {
+          $error_msg = "Error fetching tournament names: " . $conn->error;
+        }
+        ?>
+      </select>
 
 
-<!-- 
+
+
+      <!-- 
        <select class="select" name="club" required>
     <option value="" disabled selected>Select Your club</option>
         <option value="1">Paris Saint-Germain</option>
@@ -270,6 +292,9 @@ heloo
         <path fill-rule="evenodd"
           d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
       </svg></button></a>
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+  </div>
   <script src="/script/general.js"></script>
   <script>
 

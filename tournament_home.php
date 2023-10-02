@@ -14,7 +14,14 @@ if (!isset($_SESSION['admin_username'])) {
     exit();
 }
 
+// Get the tournament ID from the URL
+$tournament_id = isset($_GET['tournament_id']) ? $_GET['tournament_id'] : null;
 
+// Check if a valid tournament ID is provided
+if ($tournament_id === null) {
+    echo "Invalid tournament ID.";
+    exit();
+}
 
 
 ?>
@@ -26,43 +33,43 @@ if (!isset($_SESSION['admin_username'])) {
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Admin Dashboard</title>
   <link rel="stylesheet" href="styles/general.css">
-
   <link rel="stylesheet" href="styles/admin-general.css">
+
 
 </head>
 <body>
     <header>
      <div class="header-card1">
-        <h1>Welcome to  Admin Page</h1>
+        <h1>Welcome, <?php echo $_SESSION['admin_username']; ?></h1>
         <a href="logout.php">Log out</a>
      </div>
-        
+        <?php
+echo "Welcome to Tournament Admin Page for Tournament ID: $tournament_id";
+?>
     </header>
 
     <main>
-    <section>
-            <h2>Manage Tournaments</h2>
-            <a href="tournament_manage.php">Manage Tournaments</a>
-           
-        </section>
         <section>
-            <h2>Create New Tournament</h2>
-            <a href="tournament-register.php">Create New Tournament</a>
+            <h2>Manage Tournament</h2>
+            <a href="manage_tournaments.php?tournament_id=<?php echo $tournament_id; ?>">Manage Tournaments</a>
            
         </section>
 
         <section>
-            <h2>Login Existing Tournament</h2>
-            <a href="tournament-login.php">Login Existing Tournament</a>
+            <h2>Match Fixtures</h2>
+            <a href="manage_fixtures.php?tournament_id=<?php echo $tournament_id; ?>">Manage Match Fixtures</a>
+        </section>
+        <section>
+            <h2>Manage Match Results</h2>
+            <a href="manage_result.php?tournament_id=<?php echo $tournament_id; ?>">Update Match Results</a>
         </section>
 
         <section>
-            <h2>Edit Admin Profiles</h2>
-            <a href="admin_edit.php">Manage Admin Profiles</a>
+            <h2>User Profiles</h2>
+            <a href="manage_users.php?tournament_id=<?php echo $tournament_id; ?>">Manage User Profiles</a>
         </section>
     </main>
-
-    <a href="admin.php">
+    <a href="admin_home.php">
         <button class="return"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-arrow-left-square" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
