@@ -11,7 +11,7 @@ require "connect_db.php";
 $error_msg = "";
 $success_msg = "";
 $chosen_clubs = array();
-$chosen_clubs_sql = "SELECT club FROM registeration";
+$chosen_clubs_sql = "SELECT club FROM registration";
 $result = $conn->query($chosen_clubs_sql);
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
@@ -19,10 +19,11 @@ if ($result->num_rows > 0) {
   }
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  
   $name = $_POST["name"];
   $full_name = $_POST["full_name"];
-  $age = ($_POST['age']);
-  $phone_number = ($_POST['phone_number']);
+  $age = isset($_POST['age']) ? $_POST['age'] : null;
+  $phone_number = isset($_POST['phone_number']) ? $_POST['phone_number'] : null;
   $tournament_name2 = isset($_POST['tournament_name2']) ? $_POST['tournament_name2'] : '';
 
   // Check if 'club' is set and not an empty string
@@ -42,14 +43,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $error_msg = "Password and Confirm Password do not match.";
 
   } else {
-    /* else {
+    /* else {*/
       $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    */
+    
 
 
-    $check_duplicate_sql = "SELECT * FROM registeration WHERE club = '$club' AND tournament_id = '$tournament_name2'";
+    $check_duplicate_sql = "SELECT * FROM registration WHERE club = '$club' AND tournament_id = '$tournament_name2'";
     $result_duplicate = $conn->query($check_duplicate_sql);
-    $check_username_sql = "SELECT * FROM registeration WHERE name = '$name'AND tournament_id = '$tournament_name2'";
+    $check_username_sql = "SELECT * FROM registration WHERE name = '$name'AND tournament_id = '$tournament_name2'";
     $result = $conn->query($check_username_sql);
     $_SESSION["user_id"] = $row["user_id"];
     if ($result->num_rows > 0) {
@@ -64,26 +65,74 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } elseif (!preg_match("/^[0-9+]+$/", $phone_number)) {
           $error_msg = "Phone number must contain only numbers.";
         } else {
+          $tournament_id = $tournament_name2;
 
-          $sql = "INSERT INTO registeration (name, full_name, age, phone_number, club, password, tournament_id) 
-        VALUES ('$name', '$full_name', '$age', '$phone_number', '$club', '$password', '$tournament_name2')";
+          // Check if registration is open for the specified tournament
+          $registration_check_query = "SELECT registration_open FROM tournament WHERE tournament_id = $tournament_id";
+          $registration_check_result = $conn->query($registration_check_query);
+          
+          if ($registration_check_result) {
+              $registration_status = $registration_check_result->fetch_assoc()['registration_open'];
+          
+              if ($registration_status == 0) {
+                  // Registration is closed for this tournament
+                  $error_msg = "Registration for this tournament is closed.";
+                  // header("Location: register.php?$error_msg");
+                  header("Location: register.php?error=Registration for this tournament is closed");
+
+                  exit();
+              } else {
+                  // Proceed with registration
+                  // ...
+           
+          
+          $sql = "INSERT INTO registration (name, full_name, age, phone_number, club, password, tournament_id) 
+        VALUES ('$name', '$full_name', '$age', '$phone_number', '$club', '$hashed_password', '$tournament_name2')";
 
           //'$hashed_password'
           if ($conn->query($sql) === TRUE) {
-            // Set the 'registered' session variable to true upon successful registration
-            $_SESSION['registered'] = true;
-            $success_msg = "Registration successful!";
-            header("Location: home.php");
-            exit();
-          } else {
+            // Insert into league_table
+$user_id = $conn->insert_id;
+$tournament_id = $_POST['tournament_name2'];
+
+// SQL query to insert into league_table
+$league_table_sql = "INSERT INTO league_table (user_id, tournament_id, matches, win, draw, loss, score, points, club_id) 
+                     VALUES ('$user_id', '$tournament_id', 0, 0, 0, 0, 0, 0, '$club')";
+
+// Execute the league_table SQL query
+if ($conn->query($league_table_sql) === TRUE) {
+    // Insert into teams table
+    $teams_sql = "INSERT INTO teams (tournament_id, user_id, club_id) 
+                  VALUES ('$tournament_id', '$user_id', '$club')";
+
+    // Execute the teams SQL query
+    if ($conn->query($teams_sql) === TRUE) {
+        // Set the 'registered' session variable to true upon successful registration
+        $_SESSION['registered'] = true;
+        $success_msg = "Registration successful!";
+        header("Location: home.php");
+        exit();
+    } else {
+        $error_msg = "Error inserting into teams table: " . $conn->error;
+    }
+} else {
+    $error_msg = "Error inserting into league_table: " . $conn->error;
+}
+
+        } else {
             $error_msg = "Error: " . $sql . "<br>" . $conn->error;
-          }
+        }
+      }
+    } else {
+        echo "Error checking registration status: " . $conn->error;
+    }
           $conn->close();
         }
       }
     }
   }
 }
+
 
 // Check if the user is not logged in
 // if (!isset($_SESSION['user_id'])) {
@@ -187,6 +236,12 @@ heloo
 
   </div>
   <div class="registration-container">
+    <?php
+    if (isset($_GET['error'])) {
+      $error_msg = $_GET['error'];
+      // echo '<p class="error_message">' . $error_msg . '</p>';
+    }
+    ?>
     <h2>Football Registration</h2>
     <form id="registration-form" action="" method="post">
       <input type="text" placeholder="User Name" name="name" class="input" required>
@@ -237,6 +292,7 @@ heloo
         $tournament_query = "SELECT tournament_id, tournament_name FROM tournament";
         $tournament_result = $conn->query($tournament_query);
 
+        
         if ($tournament_result) {
           while ($row = $tournament_result->fetch_assoc()) {
             echo '<option value="' . $row['tournament_id'] . '">' . $row['tournament_name'] . '</option>';

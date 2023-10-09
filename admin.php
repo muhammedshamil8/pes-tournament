@@ -1,26 +1,41 @@
-<!-- admin_login.php -->
 <?php
 session_start();
 require "connect_db.php"; // Connect to your database
 $username = '';
 $password = '';
+$error_msg = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-     $username = $_POST['username'];
-     $password = $_POST['password'];
-     // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+/* in sql INSERT INTO admins (username, password) VALUES ('username', SHA2('password', 256));
+*/
+    // Hash the entered password using SHA-256
+    $hashed_input_password = hash('sha256', $password);
 
+    // Query to check if the provided username exists
+    $query = "SELECT * FROM admins WHERE username=?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-     // Query to check if the provided credentials match an admin
-     $query = "SELECT * FROM admins WHERE username='$username' AND password='$password'";
-     $result = $conn->query($query);
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        $hashed_password_from_db = $row['password'];
 
-     if ($result->num_rows == 1) {
-          // Admin is authenticated
-          $_SESSION['admin_username'] = $username;
-          header("Location: admin_home.php"); // Redirect to the admin dashboard
-     } else {
-          $error_msg = "Invalid details. Please try again.";
-     }
+        // Compare the hashed input password with the hashed password from the database
+        if ($hashed_input_password === $hashed_password_from_db) {
+            // Passwords match, proceed with login
+            $_SESSION['admin_username'] = $username;
+            header("Location: admin_home.php"); // Redirect to the admin dashboard
+            exit();
+        } else {
+            $error_msg = "Invalid password. Please try again.";
+        }
+    } else {
+        $error_msg = "Invalid username. Please try again.";
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -91,6 +106,8 @@ margin: 0;
           <form action="" method="POST">
                <input type="text" id="username" name="username" placeholder="Username" required><br>
                <input type="password" id="password" name="password" placeholder="Password" required><br>
+               <p> for demo<br>
+               (username:demo<br>password:demo)</p>
                <input type="submit" value="Submit">
                <?php echo $error_msg ?>
           </form>
@@ -106,7 +123,40 @@ margin: 0;
   <div class="spinner"></div>
 </div>
 <script src="/script/general.js"></script>
+ <!-- 
+CREATE TABLE teams (
+    team_id INT AUTO_INCREMENT PRIMARY KEY,
+    tournament_id INT,
+    team_name VARCHAR(255),
+    CONSTRAINT fk_tournament_id
+        FOREIGN KEY (tournament_id)
+        REFERENCES tournaments (tournament_id)
+        ON DELETE CASCADE
+);
 
+
+CREATE TABLE matches (
+    match_id INT AUTO_INCREMENT PRIMARY KEY,
+    tournament_id INT,
+    team1_id INT,
+    team2_id INT,
+    match_date DATE,
+    CONSTRAINT fk_tournament_id
+        FOREIGN KEY (tournament_id)
+        REFERENCES tournaments (tournament_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_team1_id
+        FOREIGN KEY (team1_id)
+        REFERENCES teams (team_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_team2_id
+        FOREIGN KEY (team2_id)
+        REFERENCES teams (team_id)
+        ON DELETE CASCADE
+);
+
+
+     -->
 </body>
 
 </html>

@@ -1,9 +1,9 @@
 <?php
-// var_dump($stored_password);
-// var_dump($password);
-// var_dump($_POST);
-// error_reporting(E_ALL);
-// ini_set('display_errors', '1');
+var_dump($stored_password);
+var_dump($password);
+var_dump($_POST);
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 session_start();
 require "connect_db.php";
@@ -27,8 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $user_id = $_SESSION['user_id'];
 
-$query_users = "SELECT name FROM registeration WHERE user_id = ?";
-$query_registration = "SELECT * FROM registeration WHERE user_id = ?";
+$query_users = "SELECT name FROM registration WHERE user_id = ?";
+$query_registration = "SELECT * FROM registration WHERE user_id = ?";
 $query_result = "SELECT * FROM league_table";
 
 // Prepare and execute queries
@@ -61,6 +61,14 @@ if ($result_users->num_rows == 1 && $result_registration->num_rows > 0) {
       // Get the tournament name using the tournament_id
         $query_tournament_name = "SELECT tournament_name FROM tournament WHERE tournament_id = $tournament_id";
         $result_tournament_name = $conn->query($query_tournament_name);
+
+        // league_table
+        $query_table = "SELECT lt.*, r.tournament_id, r.club FROM league_table lt JOIN registration r ON lt.user_id = r.user_id WHERE lt.tournament_id = $tournament_id ORDER BY lt.points DESC";
+
+        $result_table = $conn->query($query_table);
+        
+                
+
 
         if ($result_tournament_name->num_rows > 0) {
             $row_tournament = $result_tournament_name->fetch_assoc();
@@ -430,121 +438,120 @@ if ($result_users->num_rows == 1 && $result_registration->num_rows > 0) {
       <h2>League Table</h2>
       <table class="table-league">
         <tr>
-          <th>Position</th>
-          <th>Club</th>
-          <th>Matches Played</th>
-          <th>Wins</th>
-          <th>Draws</th>
-          <th>Losses</th>
-          <th>Score</th>
-          <th>Points</th>
+            <th>Position</th>
+            <th>Club</th>
+            <th>Matches Played</th>
+            <th>Wins</th>
+            <th>Draws</th>
+            <th>Losses</th>
+            <th>Score</th>
+            <th>Points</th>
         </tr>
 
         <?php
-        // Fetch league table data and populate the table section
-        $query_table = "SELECT * FROM league_table WHERE tournament_id = $tournament_id ORDER BY points DESC";
-
-        $result_table = $conn->query($query_table);
 
         if ($result_table->num_rows > 0) {
-          $position = 1;
-          // $club = $row['club_id'];
-          while ($row = $result_table->fetch_assoc()) {
-            // Display table rows for each club
-            $userClubId = $row['club_id'];
-            $club2 = $row['club_id'];
+            $position = 1;
 
-            // Additional improvement: Use a switch case to determine club information
-            switch ($club2) {
-              case "1":
-                $image = 'images/psg.webp';
-                $clubName = "P-S-G";
-                break;
-              case "2":
-                $image = 'images/Fcb.webp';
-                $clubName = "FC Barcelona";
-                break;
-              case "3":
-                $image = 'images/real_madrid.webp';
-                $clubName = "Real madrid";
-                break;
-              case "4":
-                $image = 'images/Manchester-United-Logo.webp';
-                $clubName = "Manchester United";
-                break;
-              case "5":
-                $image = 'images/m-city.webp';
-                $clubName = "Manchester City ";
-                break;
-              case "6":
-                $image = 'images/benfica.webp';
-                $clubName = "Benfica";
-                break;
-              case "7":
-                $image = 'images/napoli.webp';
-                $clubName = "Napoli";
-                break;
-              case "8":
-                $image = 'images/ac-milan-logo.webp';
-                $clubName = "AC milan";
-                break;
-              case "9":
-                $image = 'images/arsenal-logo-0.webp';
-                $clubName = "Arsenal";
-                break;
-              case "10":
-                $image = 'images/Chelsea-Logo.webp';
-                $clubName = "Chelsea";
-                break;
-              case "11":
-                $image = 'images/new-castle.webp';
-                $clubName = "New Castle";
-                break;
-              case "12":
-                $image = 'images/bayern.webp';
-                $clubName = "Bayern";
-                break;
-              case "13":
-                $image = 'images/logo-de-juventus.webp';
-                $clubName = "Juventus";
-                break;
-              case "14":
-                $image = 'images/new-castle.webp';
-                $clubName = "New castle";
-                break;
-              case "15":
-                $image = 'images/inter-logo.webp';
-                $clubName = "Inter milan";
-                break;
-              case "16":
-                $image = 'images/liverpool-fc-logo.webp';
-                $clubName = "Liverpool";
-                break;
-              // Add cases for other clubs
-              default:
-                $image = 'images/logo.webp'; // Provide a default image if club is not recognized
-                $clubName = "Unknown Club";
-                break;
+            while ($row = $result_table->fetch_assoc()) {
+                // Display table rows for each club
+                $userClubId = $row['club_id'];
+                $club2 = $row['club_id'];
+    
+                // Additional improvement: Use a switch case to determine club information
+                switch ($club2) {
+                  case "1":
+                    $image = 'images/psg.webp';
+                    $clubName = "P-S-G";
+                    break;
+                  case "2":
+                    $image = 'images/Fcb.webp';
+                    $clubName = "FC Barcelona";
+                    break;
+                  case "3":
+                    $image = 'images/real_madrid.webp';
+                    $clubName = "Real madrid";
+                    break;
+                  case "4":
+                    $image = 'images/Manchester-United-Logo.webp';
+                    $clubName = "Manchester United";
+                    break;
+                  case "5":
+                    $image = 'images/m-city.webp';
+                    $clubName = "Manchester City ";
+                    break;
+                  case "6":
+                    $image = 'images/benfica.webp';
+                    $clubName = "Benfica";
+                    break;
+                  case "7":
+                    $image = 'images/napoli.webp';
+                    $clubName = "Napoli";
+                    break;
+                  case "8":
+                    $image = 'images/ac-milan-logo.webp';
+                    $clubName = "AC milan";
+                    break;
+                  case "9":
+                    $image = 'images/arsenal-logo-0.webp';
+                    $clubName = "Arsenal";
+                    break;
+                  case "10":
+                    $image = 'images/Chelsea-Logo.webp';
+                    $clubName = "Chelsea";
+                    break;
+                  case "11":
+                    $image = 'images/new-castle.webp';
+                    $clubName = "New Castle";
+                    break;
+                  case "12":
+                    $image = 'images/bayern.webp';
+                    $clubName = "Bayern";
+                    break;
+                  case "13":
+                    $image = 'images/logo-de-juventus.webp';
+                    $clubName = "Juventus";
+                    break;
+                  case "14":
+                    $image = 'images/new-castle.webp';
+                    $clubName = "New castle";
+                    break;
+                  case "15":
+                    $image = 'images/inter-logo.webp';
+                    $clubName = "Inter milan";
+                    break;
+                  case "16":
+                    $image = 'images/liverpool-fc-logo.webp';
+                    $clubName = "Liverpool";
+                    break;
+                  // Add cases for other clubs
+                  default:
+                    $image = 'images/logo.webp'; // Provide a default image if club is not recognized
+                    $clubName = "Unknown Club";
+                    break;
+                }
+
+                echo "<tr" . ($club == $userClubId ? " class='user-club-row'" : "") . ">
+                <td>$position</td>
+                <td><div class='match-team--intable'><img class='match-team-image-intable' src='$image' alt='club logo'>
+                 <p>$clubName</p></div></td>
+                <td>{$row['matches']}</td>
+                <td>{$row['win']}</td>
+                <td>{$row['draw']}</td>
+                <td>{$row['loss']}</td>
+                <td>{$row['score']}</td>
+                <td>{$row['points']}</td>
+              </tr>";
+
+                $position++;
             }
-            echo "<tr" . ($club == $userClubId ? " class='user-club-row'" : "") . ">
-            <td>$position</td>
-            <td><div class='match-team--intable'><img class='match-team-image-intable' src='$image' alt='club logo'>
-             <p>$clubName</p></div></td>
-            <td>{$row['matches_played']}</td>
-            <td>{$row['wins']}</td>
-            <td>{$row['draws']}</td>
-            <td>{$row['losses']}</td>
-            <td>{$row['score']}</td>
-            <td>{$row['points']}</td>
-          </tr>";
-            $position++;
-          }
         } else {
-          echo "<tr><td colspan='8'>No data available</td></tr>";
+            echo "<tr><td colspan='8'>No data available</td></tr>";
         }
         ?>
-      </table>
-    </section>
+    </table>
+</section>
+
 
 
 
@@ -554,7 +561,10 @@ if ($result_users->num_rows == 1 && $result_registration->num_rows > 0) {
   </div>
 
 
+<?php
+$conn->close();
 
+?>
 </body>
 
 </html>

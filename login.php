@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tournament_id = isset($_POST['tournament_name2']) ? (int)$_POST['tournament_name2'] : 0;
 
     // Use prepared statement to prevent SQL injection
-    $stmt = $conn->prepare("SELECT user_id, name, password FROM registeration WHERE name = ? AND tournament_id = ?");
+    $stmt = $conn->prepare("SELECT user_id, name, password FROM registration WHERE name = ? AND tournament_id = ?");
     $stmt->bind_param("si", $name, $tournament_id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -23,15 +23,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
             $stored_password = trim($row["password"]);
-            if ($password == $stored_password) {
-                $_SESSION["user_id"] = $row["user_id"];
-                header("Location: home.php");
-                exit();
+            if (password_verify($password, $stored_password)) {
+              $_SESSION["user_id"] = $row["user_id"];
+              header("Location: home.php");
+              exit();
             } else {
                 $error_msg = "Incorrect username or password.";
             }
         } else {
-            $error_msg = "Incorrect username or password.";
+            $error_msg = "Incorrect username or password or dont in this tournamnet.";
         }
     } else {
         $error_msg = "Error in SQL query: " . $conn->error;
@@ -154,6 +154,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         ?>
       </select>
+      <p>for demo</p>
+      <p>(username: demo<br>Password: demo<br>tournament:pes)</p>
         <button type="submit" class="btn-login">Login</button>
 
       </form>

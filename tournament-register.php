@@ -43,6 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Retrieve the tournament_id for the newly inserted tournament
                     $tournament_id = $conn->insert_id;
                     $error_msg = "Tournament registered successfully : $tournament_name";
+                    header("Location: tournament_home.php?tournament_id=$tournament_id");
+
                 } else {
                     $error_msg = "Error registering the tournament: " . $conn->error;
                 }
