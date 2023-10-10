@@ -7,22 +7,20 @@ ini_set('display_errors', '1');
 session_start();
 require_once "connect_db.php"; // Connect to your database
 
-// Check if the admin is logged in
-if (!isset($_SESSION['admin_username'])) {
-    echo "Unauthorized access. Please log in as an admin.";
-    header("Location: admin.php");
-    exit();
-}
-
-// Get the tournament ID from the URL
-$tournament_id = isset($_GET['tournament_id']) ? $_GET['tournament_id'] : null;
-// $match_id = isset($_GET['match_id']) ? $_GET['match_id'] : null;
-
-// Check if a valid tournament ID is provided
-if ($tournament_id === null) {
-    echo "Invalid tournament ID.";
-    exit();
-}
+if (!isset($_SESSION['user_id'])) {
+     header("Location: home.php");
+     exit();
+ }
+ 
+ if (isset($_POST['tournament_id'])) {
+     $_SESSION['tournament_id'] = $_POST['tournament_id'];
+ } else {
+     header("Location: home.php");
+     exit();
+ }
+ 
+ $user_id = $_SESSION['user_id'];
+ $tournament_id = $_SESSION['tournament_id'];
 
 // TODO: Fetch and display user profiles for the given tournament ID
 // You'll need to fetch and display the user profiles associated with this tournament ID.
@@ -142,234 +140,24 @@ height:30px;
 .hide{
   display:none;
 }
-
-.card-container2 {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .card {
-            border: 1px solid #000;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .card img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-        }
+.highlighted-row {
+    background-color: #ffcccb; /* You can change this to the color you want for highlighting */
+}
 </style>
-<script>
-        function generateTable() {
-            // Simulate generating fixtures
-            alert('Table generated!');
-            showTable();
-        }
 
-        
-
-        function hidetheTable() {
-            // Simulate stopping the process
-            alert('Table hide.');
-            hideTable();
-        }
-
-        function showTable() {
-            const table = document.querySelector('.card-container');
-            const generateButton = document.querySelector('.show');
-            const stopButton = document.querySelector('.hide');
-
-            table.style.display = 'flex';
-            generateButton.style.display = 'none';
-            stopButton.style.display = 'block';
-        }
-
-        function hideTable() {
-            const table = document.querySelector('.league_table');
-            const generateButton = document.querySelector('.show');
-            const stopButton = document.querySelector('.hide');
-
-            table.style.display = 'none';
-            generateButton.style.display = 'block';
-            stopButton.style.display = 'none';
-        }
-    </script>
 </head>
 <body>
     <header>
-     <div class="header-card1">
-        <h1>Manage match Result</h1>
-        <a href="logout.php">Log out</a>
-     </div>
-      
+        <h1> match Result</h1>
+      <?php
+      echo $user_id;
+      ?>
     </header>
 
     <main>
-   
-        
-        <button class="show" onclick="generateTable();">show the league table</button>
-<button class="hide" onclick="hidetheTable();">hide the league table</button>
-    <div class="card-container">
-
-    <table class="league_table">
-        <thead>
-            <tr>
-                <th>Position</th>
-                <th>Club</th>
-                <th>Matches</th>
-                <th>Wins</th>
-                <th>Draws</th>
-                <th>Losses</th>
-                <th>Score</th>
-                <th>Points</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            // Fetch tournament names and related information
-            $query = "SELECT user_id, tournament_id, matches, win, draw, loss, score, points, club_id FROM league_table WHERE tournament_id = $tournament_id ORDER BY points DESC";
-            $position = 1;
-// echo $match_id;
-            $result = $conn->query($query);
-
-            if ($result) {
-                if ($result->num_rows == 0) {
-                    echo '<tr><td colspan="8">No users available for this tournament.</td></tr>';
-                } else {
-                    while ($row = $result->fetch_assoc()) {
-                        $club2 = $row['club_id'];
     
-                // Additional improvement: Use a switch case to determine club information
-                switch ($club2) {
-                  case "1":
-                    $image = 'images/psg.webp';
-                    $clubName = "P-S-G";
-                    break;
-                  case "2":
-                    $image = 'images/Fcb.webp';
-                    $clubName = "FC Barcelona";
-                    break;
-                  case "3":
-                    $image = 'images/real_madrid.webp';
-                    $clubName = "Real madrid";
-                    break;
-                  case "4":
-                    $image = 'images/Manchester-United-Logo.webp';
-                    $clubName = "Manchester United";
-                    break;
-                  case "5":
-                    $image = 'images/m-city.webp';
-                    $clubName = "Manchester City ";
-                    break;
-                  case "6":
-                    $image = 'images/benfica.webp';
-                    $clubName = "Benfica";
-                    break;
-                  case "7":
-                    $image = 'images/napoli.webp';
-                    $clubName = "Napoli";
-                    break;
-                  case "8":
-                    $image = 'images/ac-milan-logo.webp';
-                    $clubName = "AC milan";
-                    break;
-                  case "9":
-                    $image = 'images/arsenal-logo-0.webp';
-                    $clubName = "Arsenal";
-                    break;
-                  case "10":
-                    $image = 'images/Chelsea-Logo.webp';
-                    $clubName = "Chelsea";
-                    break;
-                  case "11":
-                    $image = 'images/new-castle.webp';
-                    $clubName = "New Castle";
-                    break;
-                  case "12":
-                    $image = 'images/bayern.webp';
-                    $clubName = "Bayern";
-                    break;
-                  case "13":
-                    $image = 'images/logo-de-juventus.webp';
-                    $clubName = "Juventus";
-                    break;
-                  case "14":
-                    $image = 'images/new-castle.webp';
-                    $clubName = "New castle";
-                    break;
-                  case "15":
-                    $image = 'images/inter-logo.webp';
-                    $clubName = "Inter milan";
-                    break;
-                  case "16":
-                    $image = 'images/liverpool-fc-logo.webp';
-                    $clubName = "Liverpool";
-                    break;
-                  // Add cases for other clubs
-                  default:
-                    $image = 'images/logo.webp'; // Provide a default image if club is not recognized
-                    $clubName = "Unknown Club";
-                    break;
-                }
-                        echo "<tr>
-                                <td>$position</td>
-                                <td>
-                                <div class='match-team--intable'><img class='match-team-image-intable' src='$image' alt='club logo'>
-                                <p>$clubName</p></div>
-                                </td>
-                                <td>{$row['matches']}</td>
-                                <td>{$row['win']}</td>
-                                <td>{$row['draw']}</td>
-                                <td>{$row['loss']}</td>
-                                <td>{$row['score']}</td>
-                                <td>{$row['points']}</td>
-                            </tr>";
-
-                        $position++;
-                    }
-                }
-            } else {
-                $error_msg = "Error fetching tournament names and related information: " . $conn->error;
-                echo '<tr><td colspan="8">Error fetching data: ' . $error_msg . '</td></tr>';
-            }
-            ?>
-        </tbody>
-    </table>
-   
-        </div>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Match number">
-            <button onclick="search()">Search</button>
-        </div>
-        <div class="card-container2">
-        <button>Show the result</button>
-        <div class="card">
-            <p>Name</p>
-            <img src="path_to_your_image.jpg" alt="Image Alt Text">
-            <p>Score</p>
-            <p>Suggestions</p>
-        </div>
-    </div>
-    <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Match number">
-            <button onclick="search()">Search</button>
-        </div>
+        
+    
         <table class="match_table">
               <?php
               $query = "SELECT * FROM matches WHERE tournament_id = ? order by match_status asc";
@@ -387,31 +175,35 @@ height:30px;
             <th>Team 1 ID</th>
             <th>Team 2 ID</th>
             <th>Match Date</th>
-            <th>Team 1 Result</th>
-            <th>Team 2 Result</th>
+            
             <th>Match Status</th>
         </tr>
     </thead>
     <tbody>
         <?php
-        $position = 0;
+     $position = 0;
+     if ($result->num_rows == 0) {
+      echo '<tr><td colspan="7">No match details available for this tournament.</td></tr>';
+  } else {
        while ($row = $result->fetch_assoc()) {
         $m_team1_id = $row['team1_id'];
         $m_team2_id = $row['team2_id'];
     
         // Query to fetch club_id for team1_id
-        $query_team1 = "SELECT club_id FROM teams WHERE team_id = $m_team1_id";
+        $query_team1 = "SELECT club_id,user_id  FROM teams WHERE team_id = $m_team1_id";
         $result_team1 = mysqli_query($conn, $query_team1);
         $row_team1 = mysqli_fetch_assoc($result_team1);
         $m_team1_club_id = $row_team1['club_id'];
-    
+        $m_team1_user_id = $row_team1['user_id'];
         // Query to fetch club_id for team2_id
-        $query_team2 = "SELECT club_id FROM teams WHERE team_id = $m_team2_id";
+        $query_team2 = "SELECT club_id,user_id FROM teams WHERE team_id = $m_team2_id";
         $result_team2 = mysqli_query($conn, $query_team2);
         $row_team2 = mysqli_fetch_assoc($result_team2);
         $m_team2_club_id = $row_team2['club_id'];
-
+     $m_team2_user_id = $row_team2['user_id'];
      $m_status = $row['match_status'];
+// echo $m_team2_user_id;
+// echo $m_team1_user_id;
 
      switch ($m_team1_club_id) {
         case "1":
@@ -562,9 +354,31 @@ height:30px;
      }else{
         $match_status = "Error";
      };
-   $position ++;
-        echo "<tr>
-        <tr><td colspan='8'>Match # {$position}</td></tr>
+     $position ++;
+
+     if ($m_team1_user_id == $user_id || $m_team2_user_id == $user_id) {
+          // Add a class to the row for highlighting
+          echo "
+          <tr><td colspan='5'>Match # {$position}</td></tr>
+          <tr class='highlighted-row'>
+  
+              <td>{$row['match_id']}</td>
+              <td>{$row['tournament_id']}</td>
+                                          <td>club id:$m_team1_club_id<br> <div class='match-team--intable'><img class='match-team-image-intable' src='$image_team1' alt='club logo'>
+                                          <p>$clubName_team1</p></div></td>
+                                          <td>club id:$m_team2_club_id<br> <div class='match-team--intable'><img class='match-team-image-intable' src='$image_team2' alt='club logo'>
+                                          <p>$clubName_team2</p></div></td>
+              <td>{$row['match_date']}</td>
+             
+              <td>$match_status
+                  
+              </td>
+          </tr>";
+      } else {
+          echo "
+        <tr><td colspan='5'>Match # {$position}</td></tr>
+        <tr>
+
             <td>{$row['match_id']}</td>
             <td>{$row['tournament_id']}</td>
                                         <td>club id:$m_team1_club_id<br> <div class='match-team--intable'><img class='match-team-image-intable' src='$image_team1' alt='club logo'>
@@ -572,34 +386,16 @@ height:30px;
                                         <td>club id:$m_team2_club_id<br> <div class='match-team--intable'><img class='match-team-image-intable' src='$image_team2' alt='club logo'>
                                         <p>$clubName_team2</p></div></td>
             <td>{$row['match_date']}</td>
-            <td>{$row['team1_result']}<br>
-                <select>
-                    <option disabled selected>Result</option>
-                    <option value='1'>Won</option>
-                    <option value='-1'>Loss</option>
-                    <option value='0'>Draw</option>
-                </select><br>
-                <button>Upload</button>
-            </td>
-            <td>{$row['team2_result']}<br>
-                <select>
-                    <option disabled selected>Result</option>
-                    <option value='1'>Won</option>
-                    <option value='-1'>Loss</option>
-                    <option value='0'>Draw</option>
-                </select><br>
-                <button>Upload</button>
-            </td>
-            <td>$match_status<br>
-                <select>
-                    <option disabled selected>Update</option>
-                    <option value='1'>Played</option>
-                    <option value='0'>not played</option>
-                </select><br>
-                <button>Save</button>
+           
+            <td>$match_status
+                
             </td>
         </tr>";
-    }
+      }
+  
+  }
+       
+}
         ?>
     </tbody>
 </table>
@@ -619,11 +415,9 @@ $conn->close();
         </button>
     </a>
 </div>
-<div>
-Matches
-</div>
+
     </main>
-    <a href="tournament_home.php?tournament_id=<?php echo $tournament_id; ?>">
+    <a href="home.php">
         <button class="return"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-arrow-left-square" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"

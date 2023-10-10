@@ -26,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $user_id = $_SESSION['user_id'];
-
 $query_users = "SELECT name FROM registration WHERE user_id = ?";
 $query_registration = "SELECT * FROM registration WHERE user_id = ?";
 $query_result = "SELECT * FROM league_table";
@@ -192,7 +191,25 @@ if ($result_users->num_rows == 1 && $result_registration->num_rows > 0) {
 
     <button id="settingsBtn"><img class="nav-img" src="/images/settings.png"></button>
 
-
+    <form action="user_fixture.php" method="post">
+  <input type="hidden" name="tournament_id" value="<?php echo $tournament_id; ?>">
+  <button type="submit">
+    <img class="nav-img" src="/images/matches.png">
+  </button>
+</form>
+    <form action="previous_result.php" method="post">
+  <input type="hidden" name="tournament_id" value="<?php echo $tournament_id; ?>">
+  <button type="submit">
+    <img class="nav-img" src="/images/matches.png">
+  </button>
+</form>
+</form>
+    <form action="all_fixture.php" method="post">
+  <input type="hidden" name="tournament_id" value="<?php echo $tournament_id; ?>">
+  <button type="submit">
+    <img class="nav-img" src="/images/matches.png">
+  </button>
+</form>
 
   </header>
 
@@ -286,6 +303,8 @@ if ($result_users->num_rows == 1 && $result_registration->num_rows > 0) {
         echo "<div class='team-logo'><img  class='team-logo-img' src='$image' alt='club logo'></div>";
 
         echo "<p> $clubName </p>";
+//         echo $user_id;
+// echo $tournament_id;
         ?>
         <br>
 

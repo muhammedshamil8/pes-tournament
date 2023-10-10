@@ -53,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $check_username_sql = "SELECT * FROM registration WHERE name = '$name'AND tournament_id = '$tournament_name2'";
     $result = $conn->query($check_username_sql);
     $_SESSION["user_id"] = $row["user_id"];
+    $_SESSION["tournament_id"] = $row["tournament_id"];
     if ($result->num_rows > 0) {
       $error_msg = "Username is already taken. Please choose a different username.";
     } else {

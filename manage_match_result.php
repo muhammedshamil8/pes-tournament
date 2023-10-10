@@ -148,6 +148,38 @@ $stmt->close();
         .return svg {
             margin-right: 10px;
         } */
+
+.card-container2 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .card {
+            border: 1px solid #000;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
     </style>
     <script>
         function generateTable() {
@@ -312,6 +344,17 @@ $stmt->close();
                     ?>
                 </tbody>
             </table>
+            <div class="card-container2">
+        <button>Show the result</button>
+        <div class="card">
+          <h3>Result from Player</h3>
+            <p><?php echo "Macth id :$match_id"?></p>
+            <p>Name</p>
+            <img src="path_to_your_image.jpg" alt="Image Alt Text">
+            <p>Score</p>
+            <p>Suggestions</p>
+        </div>
+    </div>
             <table class="league_table">
                 <thead>
                     <tr>
