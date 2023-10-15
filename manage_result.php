@@ -353,22 +353,25 @@ height:30px;
     </table>
    
         </div>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Match number">
-            <button onclick="search()">Search</button>
-        </div>
-        <div class="card-container2">
-        <button>Show the result</button>
-        <div class="card">
-            <p>Name</p>
-            <img src="path_to_your_image.jpg" alt="Image Alt Text">
-            <p>Score</p>
-            <p>Suggestions</p>
+
+
+        <div class="container">
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Match number">
+        <button onclick="search()">Search</button>
+    </div>
+    <div class="card-container">
+        <button onclick="showAllCards()">Show All Cards</button>
+        <div id="cardsContainer">
+            <!-- Cards will be dynamically added here -->
         </div>
     </div>
+</div>
+
     <div class="search-container">
             <input type="text" id="searchInput" placeholder="Match number">
-            <button onclick="search()">Search</button>
+            <button onclick="search2()">Search</button>
+
         </div>
         <table class="match_table">
               <?php
@@ -392,7 +395,7 @@ height:30px;
             <th>Match Status</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="matchTableBody">
         <?php
         $position = 0;
        while ($row = $result->fetch_assoc()) {
@@ -630,5 +633,123 @@ Matches
                     d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
             </svg></button>
     </a>
+    <script>
+      function search2() {
+    const matchId = document.getElementById('searchInput').value.toLowerCase();
+    const tableRows = document.querySelectorAll('#matchTableBody tr');
+
+    tableRows.forEach(row => {
+        const matchIdCell = row.querySelector('td:first-child');  // Updated selector to target the first cell
+        if (matchIdCell) {
+            const matchIdText = matchIdCell.textContent || matchIdCell.innerText;
+
+            if (matchIdText.toLowerCase().includes(matchId)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        }
+    });
+}
+
+
+      function search() {
+    // Fetch match_id from the input field
+    const matchId = document.getElementById('searchInput').value;
+
+    // Use matchId to fetch card details from the result_from_user table
+    // Make an API call or use AJAX to fetch data from your server
+    // Replace the following code with the actual fetching logic
+    const cardDetails = fetchCardDetailsFromDatabase(matchId);
+
+    // Display the fetched card details
+    displayCardDetails(cardDetails);
+}
+
+function fetchCardDetailsFromDatabase(matchId) {
+    // Simulated card details
+    return [
+        {
+            id: 1,
+            tournament_id: 123,
+            user_id: 456,
+            match_id: 1,
+            result_image: 'path_to_image1.jpg',
+            team1_score: 2,
+            team2_score: 1,
+            message: 'Great match!',
+            match_active: 1
+        },
+        {
+            id: 2,
+            tournament_id: 123,
+            user_id: 789,
+            match_id: 2,
+            result_image: 'path_to_image2.jpg',
+            team1_score: 3,
+            team2_score: 0,
+            message: 'Awesome victory!',
+            match_active: 1
+        }
+    ];
+}
+
+function displayCardDetails(cardDetails) {
+    const cardsContainer = document.getElementById('cardsContainer');
+    cardsContainer.innerHTML = '';
+
+    cardDetails.forEach(card => {
+        const cardDiv = document.createElement('div');
+        cardDiv.classList.add('card');
+
+        const cardContent = `
+            <p>Name: ${card.user_id}</p>
+            <img src="${card.result_image}" alt="Image Alt Text">
+            <p>Score: ${card.team1_score} - ${card.team2_score}</p>
+            <p>Message: ${card.message}</p>
+            <p>Match Active: ${card.match_active === 1 ? 'Yes' : 'No'}</p>
+        `;
+
+        cardDiv.innerHTML = cardContent;
+        cardsContainer.appendChild(cardDiv);
+    });
+}
+
+function showAllCards() {
+    const cardsContainer = document.getElementById('cardsContainer');
+    cardsContainer.innerHTML = '';  // Clear the container to show all cards
+
+    // Fetch all card details (you can modify this based on your actual data retrieval)
+    const allCardDetails = [
+        {
+            id: 1,
+            tournament_id: 123,
+            user_id: 456,
+            match_id: 1,
+            result_image: 'path_to_image1.jpg',
+            team1_score: 2,
+            team2_score: 1,
+            message: 'Great match!',
+            match_active: 1
+        },
+        {
+            id: 2,
+            tournament_id: 123,
+            user_id: 789,
+            match_id: 2,
+            result_image: 'path_to_image2.jpg',
+            team1_score: 3,
+            team2_score: 0,
+            message: 'Awesome victory!',
+            match_active: 1
+        }
+        // Add more card details as needed
+    ];
+
+    // Display all card details
+    displayCardDetails(allCardDetails);
+}
+
+    </script>
 </body>
 </html>

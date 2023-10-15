@@ -180,7 +180,7 @@ if ($num_teams < 2) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Fixtures</title>
+    <title>Manage Fixturess</title>
     <link rel="stylesheet" href="styles/admin-general.css">
     <link rel="stylesheet" href="styles/general.css">
     <style>
@@ -336,7 +336,7 @@ function refreshFixtures(tournament_id) {
             <tbody class="table_data">
                 <?php
                     // Display fixtures and options
-                    $fixtures = generateFixture($num_teams, $tournament_id);
+                   generateFixture($num_teams, $tournament_id);
                 ?>
             </tbody>
         </table>

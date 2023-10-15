@@ -42,121 +42,116 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 
 <head>
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Admin Login</title>
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <link rel="stylesheet" href="styles/general.css">
+     <link rel="stylesheet" href="styles/admin-login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-
-     <style>
-         body {
-   font-family: Arial, sans-serif;
-   background-image: url('/images/pes.jpg');
-   background-repeat: no-repeat;
-   background-size: cover; 
-   /* background-position: center center;  */
-   font-family: 'Roboto Condensed', sans-serif;
-   min-height: 100vh; 
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-margin: 0;
-}
-
-          .card {
-               width: 350px;
-               padding: 30px;
-               box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-               border-radius: 10px;
-               backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-               background-color: rgba(0, 0, 0, 0.1);
-               text-align: center;
-          }
-
-          .card h2 {
-               margin-bottom: 20px;
-          }
-
-          .card input {
-               width: 100%;
-               padding: 10px;
-               margin-bottom: 10px;
-               border-radius: 5px;
-               border: 1px solid #ccc;
-          }
-
-          .card input[type="submit"] {
-               background-color: #007BFF;
-               color: white;
-               border: none;
-               cursor: pointer;
-          }
-
-          .card input[type="submit"]:hover {
-               background-color: #0056b3;
-          }
-     </style>
 </head>
 
 <body>
-     <div class="card">
-          <h2>Admin Login</h2>
-          <form action="" method="POST">
-               <input type="text" id="username" name="username" placeholder="Username" required><br>
-               <input type="password" id="password" name="password" placeholder="Password" required><br>
-               <p> for demo<br>
-               (username:demo<br>password:demo)</p>
-               <input type="submit" value="Submit">
-               <?php echo $error_msg ?>
-          </form>
-     </div>
+<header>
+  <div class="header">
+  <h1 class="title" onclick="window.location = 'index.php';">seeee<span>.</span>us</h1>
+        <input type="checkbox" id="nav-toggle" class="input-nav">
+        <div class="nav-icon">
+        <label for="nav-toggle" >
+            <div class="line"></div>
+            <div class="line middle-line"></div>
+            <div class="line"></div>
+        </label>
+        </div>
+  </div>
+   
+       
+</header>
+<nav class="nav-content">
+    <a href="#" active>Home</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Contact</a>
+</nav>
 
 
-     <a href="index.php"><button class="return"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-        fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16">
-        <path fill-rule="evenodd"
-          d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
-      </svg></button></a>
-      <div id="loading-overlay">
-  <div class="spinner"></div>
+<div class="body">
+
+
+<div class="login-container">
+ 
+  <div class="login-details">
+<div class="card-flex-intro">
+          <h1>Admin Login</h1>
+          <div class="underline"></div>
+            
+            </div>
+
+        <form action="" method="post">
+          <div class="input-container">
+            <input type="text" id="username" name="username" required>
+            <label for="username">Username</label>
+            <span class="icon">
+              <img src="./images/icon-username.svg" />
+            </span>
+          </div>
+          <div class="input-container">
+            <input type="password" id="password" name="password" required>
+            <label for="password">Password</label>
+            <span class="icon">
+              <img src="./images/Vector-password.svg" id="togglePassword" />
+              <!-- <i class="far fa-eye" ></i> -->
+            </span>
+          </div>
+
+         
+          <div id="custom-alert" class="custom-alert">
+  <div class="card">
+    <span class="close" onclick="closeCustomAlert()">&times;</span>
+    <div class="message" id="custom-alert-message">
+    </div>
+  </div>
 </div>
-<script src="/script/general.js"></script>
- <!-- 
-CREATE TABLE teams (
-    team_id INT AUTO_INCREMENT PRIMARY KEY,
-    tournament_id INT,
-    team_name VARCHAR(255),
-    CONSTRAINT fk_tournament_id
-        FOREIGN KEY (tournament_id)
-        REFERENCES tournaments (tournament_id)
-        ON DELETE CASCADE
-);
+
+<p class="forget-pass" onclick="showForgetPassMessage()">Forget password?</p>
+
+          <button type="submit" class="btn-login">Login<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+          </svg>
+</button>
+        </form>
+        <?php
+        echo '<p class="error_message">' . $error_msg . '</p>';
+        ?>
+      </div>
 
 
-CREATE TABLE matches (
-    match_id INT AUTO_INCREMENT PRIMARY KEY,
-    tournament_id INT,
-    team1_id INT,
-    team2_id INT,
-    match_date DATE,
-    CONSTRAINT fk_tournament_id
-        FOREIGN KEY (tournament_id)
-        REFERENCES tournaments (tournament_id)
-        ON DELETE CASCADE,
-    CONSTRAINT fk_team1_id
-        FOREIGN KEY (team1_id)
-        REFERENCES teams (team_id)
-        ON DELETE CASCADE,
-    CONSTRAINT fk_team2_id
-        FOREIGN KEY (team2_id)
-        REFERENCES teams (team_id)
-        ON DELETE CASCADE
-);
+      <div class="login-image">
+      <button onclick="
+      window.location = 'index.php';
+      ">
+      <img src="./images/Vecto-rclose.svg" />
+      </button>
+        <img src="./images/player-image.svg" alt="player-image" class="player-image">
+      </div>
+  </div>
+  </div>
+<script src="./script/header-opening.js"></script>
+  <script>
+    const togglePassword = document.getElementById('togglePassword');
+const passwordField = document.getElementById('password');
 
+togglePassword.addEventListener('click', () => {
+  const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+  passwordField.setAttribute('type', type);
+  // togglePassword.classList.toggle('fa-eye-slash');
+});
+function loading(){
+    alert('Bro ')
+}
+  </script>
 
-     -->
 </body>
 
 </html>

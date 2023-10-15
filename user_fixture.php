@@ -9,8 +9,11 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+// Check if tournament_id is in POST or GET
 if (isset($_POST['tournament_id'])) {
     $_SESSION['tournament_id'] = $_POST['tournament_id'];
+} elseif (isset($_GET['tournament_id'])) {
+    $_SESSION['tournament_id'] = $_GET['tournament_id'];
 } else {
     header("Location: home.php");
     exit();
@@ -27,6 +30,10 @@ $matchesQuery = "SELECT matches.*, teams1.user_id AS user_id_team1, teams2.user_
                  JOIN teams AS teams2 ON matches.team2_id = teams2.team_id 
                  WHERE matches.tournament_id = ? 
                  AND (teams1.user_id = ? OR teams2.user_id = ?) and matches.match_status = 0";
+
+
+
+
 $stmt = $conn->prepare($matchesQuery);
 $stmt->bind_param("iii", $tournament_id, $user_id, $user_id);
 $stmt->execute();
@@ -43,10 +50,12 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Tournament Matches</title>
     <style>
+        
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
         }
         .header {
             padding: 20px;
@@ -55,13 +64,15 @@ $result = $stmt->get_result();
             color: white;
         }
         .container {
-            margin-left: auto;
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
         }
         .match-card {
             border: 1px solid #ccc;
             padding: 20px;
             margin-bottom: 20px;
+            background-color: white;
         }
         .match-card h3 {
             font-size: 1.2em;
@@ -79,8 +90,12 @@ $result = $stmt->get_result();
         .form-section textarea {
             margin-bottom: 10px;
             padding: 10px;
-            width: 100%;
+            width: calc(100% - 20px);
             box-sizing: border-box;
+        }
+        .form-section label {
+            margin-bottom: 10px;
+            font-weight: bold;
         }
         .form-section button {
             padding: 10px 20px;
@@ -95,6 +110,7 @@ $result = $stmt->get_result();
         .result-uploaded {
             color: green;
         }
+    
     </style>
 </head>
 <body>
@@ -106,17 +122,24 @@ $result = $stmt->get_result();
         <h2>Matches</h2>
 
         <?php
+        $matchActiveQuery = "SELECT match_active FROM result_from_user WHERE tournament_id = ? and user_id = ?";
+        $stmt = $conn->prepare($matchActiveQuery);
+        $stmt->bind_param("ii", $tournament_id, $user_id);
+        $stmt->execute();
+        
+        $stmt->bind_result($match_active);
+        $stmt->fetch();
         $position = "pes";
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc(); // Fetch the first match
-
+            
             // Display the current match
             echo '<div class="match-card">';
             echo '<h3>Current Match - Match #' . $position . '</h3>';
             echo '<p>Team 1 ID: ' . $row['team1_id'] . '</p>';
             echo '<p>Team 2 ID: ' . $row['team2_id'] . '</p>';
 
-            if ($row['match_status'] == 1) {
+            if ($match_active === 1) {
                 echo '<div class="form-section">';
                 echo '<p class="result-uploaded">Result uploaded for this match. Match finished.</p>';
                 echo '</div>';
@@ -127,6 +150,11 @@ $result = $stmt->get_result();
                 echo '<input type="file" name="image" accept="image/*" required>';
                 echo '<input type="number" name="team1_score" placeholder="Team 1 Score" required>';
                 echo '<input type="number" name="team2_score" placeholder="Team 2 Score" required>';
+                echo '<label>
+                <input type="checkbox" name="match_active" value="1" required>
+                Finished
+              </label>
+              ';
                 echo '<textarea name="message" placeholder="Message"></textarea>';
                 echo '<button type="submit">Submit Result</button>';
                 echo '</form>';

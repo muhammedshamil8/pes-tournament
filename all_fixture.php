@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
      exit();
  }
  
- if (isset($_POST['tournament_id'])) {
+ if (isset($_POST['tournament_id']) ) {
      $_SESSION['tournament_id'] = $_POST['tournament_id'];
  } else {
      header("Location: home.php");

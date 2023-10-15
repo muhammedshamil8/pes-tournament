@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seee.us</title>
-    <!-- <link rel="stylesheet" href="styles/index.css"> -->
+    <link rel="stylesheet" href="styles/intro-page.css">
     <link rel="stylesheet" href="styles/fon-opening-pages.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,47 +36,32 @@
 
       <nav class="nav-content">
           <a href="#" active>Home</a>
-          <a href="https://www.britannica.com/sports/football-soccer" target="_blank">About</a>
+          <a href="#">About</a>
           <a href="#">Services</a>
-          <a href="https://keralapolice.gov.in/" target="_blank">Contact</a>
-          <a > 
-          
-        <!-- <input type="range" max="10" min="0" style=""/> -->
-        <audio autoplay loop controls class="aduio-btn">
-          <source src="/home/ajad/work/pes/images/pes.mp3" type="audio/mpeg">
-          <source src="images/pes.mp3" type="audio/ogg">
-        </audio></a>
+          <a href="#">Contact</a>
       </nav>
 
-  <div class="container">
+  <div class="container-intro-page">
 
-      <div class="button-flex-index">
-            <button onclick="
-            window.location = 'intro-page.php';
-            ">player</button>
-            <button onclick="
-            window.location = 'admin.php';
-            ">organizer</button>
+      <div class="card-flex-intro">
+
+               <h1>Player Login
+              <div class="underline"></div>
+
+               </h1>
+
+          <div class="button-flex-intro">
+               <button onclick="
+               window.location = 'login.php';
+               ">Login</button>
+               <button onclick="
+               window.location = 'register.php';
+               ">Register</button>
+          </div>
+           
       </div>
 
   </div>
-  <!-- <div id="loading-overlay">
-  <div class="spinner"></div>
-</div> -->
-  <div id="loading-overlay">
-  <div class="football">
-  <img src="./images/football.jpg" alt="Football">
-</div> 
-
-  </div>
-  <!-- <div id="loading-container">
-  <div id="progress-bar">
-    <div id="progress-text">0%</div>
-  </div>
-</div> 
-<button id="start-loading-btn">Start Loading</button>
--->
-
    <script src="./script/header-opening.js"> </script>
 </body>
 
