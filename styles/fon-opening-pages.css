@@ -23,7 +23,19 @@ body {
      justify-content: flex-end;
      align-items: center;
      margin-bottom: 80px;
-  }
+     animation: slideright 0.5s forwards;
+   }
+   
+   @keyframes slideright {
+     from {
+       transform: translateX(-100%);
+       opacity: 0;
+     }
+     to {
+       transform: translateX(0%);
+       opacity: 1;
+     }
+   }
   
   .button-flex-index {
      display: flex;
@@ -243,13 +255,13 @@ body {
   @media (max-width: 450px) {
      body {
         background-image: url('/images/opening-bg-fon.jpg');
-        background-size: 100% 80%; 
+        background-size: 100% 100%; 
         background-repeat: no-repeat;
         background-position: top;
         margin: 0;
         padding: 0;
         background-color: rgb(0, 0, 0);
-     max-height: 100vh;
+        max-height: 100vh;
 
      }
   
@@ -323,118 +335,5 @@ body {
           top: 65px;
         }
   }
-  /* loading style */
 
-/* .loading-container { */
-/* #loading-overlay {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   height: 100%;
-   
- } */
- 
- 
-
-/* Loading process */
-#loading-overlay {
-   display: none;
-   position: fixed;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   /* background-image: url('/images/pes.jpg'); */
-   /* filter: blur(2px); */
-   background-color: rgba(49, 48, 48, 0.925);
-   background-repeat: no-repeat;
-   background-size: cover;
-   background-position: center;
-   z-index: 9999; /* Adjusted z-index to appear above the blurred background */
-   backdrop-filter: blur(10px);
-
- }
- .football {
-   position: fixed; /* Change to 'fixed' so it's positioned relative to the viewport */
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
- }
- 
- .football img {
-   width: 40px;
-   height: 40px;
-   border-radius: 50%;
-   animation: move-football 3s ease-in-out infinite;
- }
- 
- @keyframes move-football {
-   0% {
-     transform: translate(0, 0) scale(1);
-   }
-   25% {
-     transform: translate(200px, 0) scale(1);
-   }
-   50% {
-     transform: translate(200px, 200px) scale(1);
-   }
-   75% {
-     transform: translate(0, 200px) scale(1);
-   }
-   90% {
-     transform: translate(0, 0) scale(1);
-   }
-   100% {
-     transform: translate(0, 0) scale(2000);
-   }
- }
- 
- 
- 
- .spinner {
-   position: fixed; /* Change to 'fixed' so it's positioned relative to the viewport */
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
-   width: 50px;
-   height: 50px;
-   border: 5px solid #f3f3f3;
-   border-top: 5px solid #3498db;
-   border-radius: 50%;
-   
-   animation: spin 1s linear infinite;
- }
- 
- @keyframes spin {
-   0% { transform: translate(-50%, -50%) rotate(0deg); }
-   100% { transform: translate(-50%, -50%) rotate(360deg); }
- }
- 
-
- #loading-container {
-   width: 300px;
-   border: 2px solid #ccc;
-   border-radius: 5px;
-   padding: 10px;
- }
- 
- #progress-bar {
-   width: 0;
-   height: 20px;
-   background-color: #3498db;
-   border-radius: 5px;
-   position: relative;
- }
- 
- #progress-text {
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
-   color: #fff;
- }
- 
- #start-loading-btn {
-   margin-top: 20px;
- }
  

@@ -179,7 +179,7 @@ height:30px;
         <?php
         $position = 0;
         if ($result->num_rows == 0) {
-          echo '<tr><td colspan="7">No match details available for this tournament.</td></tr>';
+          echo '<tr><td colspan="7">No match finished or result not uploaded  for this tournament.</td></tr>';
       } else {
        while ($row = $result->fetch_assoc()) {
         $m_team1_id = $row['team1_id'];

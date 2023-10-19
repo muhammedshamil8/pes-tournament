@@ -3,20 +3,20 @@
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seee.us</title>
-    <!-- <link rel="stylesheet" href="styles/index.css"> -->
+    <link rel="stylesheet" href="styles/loading.css">
     <link rel="stylesheet" href="styles/fon-opening-pages.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body id="content">
   <header>
         <div>
             <h1 class="title" onclick="
@@ -51,24 +51,13 @@
   <div class="container">
 
       <div class="button-flex-index">
-            <button onclick="
-            window.location = 'intro-page.php';
-            ">player</button>
-            <button onclick="
-            window.location = 'admin.php';
-            ">organizer</button>
+            <button onclick="loadDoc('intro-page.php')">player</button>
+            <button onclick="window.location='admin.php';">organizer</button>
       </div>
 
   </div>
-  <!-- <div id="loading-overlay">
-  <div class="spinner"></div>
-</div> -->
-  <div id="loading-overlay">
-  <div class="football">
-  <img src="./images/football.jpg" alt="Football">
-</div> 
 
-  </div>
+  
   <!-- <div id="loading-container">
   <div id="progress-bar">
     <div id="progress-text">0%</div>
@@ -76,8 +65,13 @@
 </div> 
 <button id="start-loading-btn">Start Loading</button>
 -->
+<div id="loading-overlay">
+  <div class="football">
+  <img src="./images/football.jpg" alt="Football">
+</div> 
 
    <script src="./script/header-opening.js"> </script>
+
 </body>
 
 </html>

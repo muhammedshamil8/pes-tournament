@@ -92,6 +92,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 10;
 }
 
 .card-flex-intro {
@@ -233,9 +234,16 @@ background-color:#ddd;
   font-size: 10px;
 }
 
-.change > a {
+.change > button {
   color: #FF4C8D;
   letter-spacing: 0.8px;
+  background-color: transparent;
+  border: none;
+  font-size: 10px;
+margin: 0;
+padding: 0;
+text-decoration: underline;
+cursor: pointer;
 }
 .error_message{
   color: red;
@@ -253,7 +261,7 @@ nav.nav-content{
   }
 }
 
-@media (max-width:1209px) {
+@media (max-width:1399px) {
   .login-container {
     height: fit-content;
     width: 70%;
@@ -264,11 +272,11 @@ nav.nav-content{
     justify-content: center;
     align-items: center; /* Align at the top */
     position: relative;
-    margin-left: -100px; /* Adjusted margin */
+    margin-left: -130px; /* Adjusted margin */
   }
   
   .player-image {
-    max-width: 95%; /* Adjusted width */
+    max-width: 90%; /* Adjusted width */
   }
   
 }
@@ -345,7 +353,12 @@ nav.nav-content{
     border-top-right-radius: 15px;
     background-color: #FF4C8D;
   }
-  
+  .login-details {
+
+    margin: 0px;
+    
+    padding: 25px 5px;
+  }
   
 }
 @media (max-width:500px) {
@@ -402,7 +415,7 @@ nav.nav-content{
   }
   .body {
     background-image: url('/images/real\ madrid\ 2bg-fon.jpg');
-    background-size: 100% 60%;
+    background-size: 100% 55%;
     background-position: top;
     background-repeat: no-repeat;
     display: flex;
@@ -433,10 +446,10 @@ nav.nav-content{
 .underline {
   width: 130px;
 }
-form {
+/* form {
   display: block;
   min-width: 100%;
-}
+} */
 
 .forget-pass {
   cursor: pointer;

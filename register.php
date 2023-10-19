@@ -111,7 +111,8 @@ if ($conn->query($league_table_sql) === TRUE) {
       $_SESSION['registered'] = true;
       $success_msg = "Registration successful! Redirecting in 5 seconds...";
       
-      header("Refresh: 5; URL=home.php");
+      // header("Refresh: 5; URL=home.php");
+      header("Location: home.php");
   
     } else {
         $error_msg = "Error inserting into teams table: " . $conn->error;
@@ -145,7 +146,7 @@ if ($conn->query($league_table_sql) === TRUE) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 
 <head>
   <meta charset="UTF-8">
@@ -156,13 +157,15 @@ if ($conn->query($league_table_sql) === TRUE) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles/register.css">
+  <link rel="preload" href="./images/player-image.svg" as="image">
+
 </head>
 
-<body>
+<body >
 
 <header>
   <div class="header">
-  <h1 class="title" onclick="window.location = 'index.php';">seeee<span>.</span>us</h1>
+  <h1 class="title" onclick="window.location='index.php';">seeee<span>.</span>us</h1>
         <input type="checkbox" id="nav-toggle" class="input-nav">
         <div class="nav-icon">
         <label for="nav-toggle" >
@@ -182,7 +185,7 @@ if ($conn->query($league_table_sql) === TRUE) {
     <a href="#">Contact</a>
 </nav>
 
-<div class="body">
+<div class="body" id="content">
 
   <div class="registration-container">
 
@@ -330,23 +333,22 @@ if ($conn->query($league_table_sql) === TRUE) {
     <?php
       echo '<p class="error_message">' . $error_msg . '</p>';
       ?>
-    <p class="change">Already registered?<a href="login.php">sign in</a></p>
+    <p class="change">Already registered?<button onclick="window.location='./login.php';">sign in</button></p>
     <?php
       echo '<p class="success_message">' . $success_msg . '</p>';
       ?>
     <!-- </div> -->
     </div>
     <div class="registration-image">
-      <button onclick="
-      window.location = 'intro-page.php';
-      ">
+      <!-- <button onclick="loadDoc('intro-page.php')"> -->
+      <button onclick="window.location='intro-page.php';">
       <img src="./images/Vecto-rclose.svg" />
       </button>
-        <img src="./images/player-image.svg" alt="player-image" class="player-image">
+        <img src="./images/player-image.svg" alt="player-image" class="player-image" >
       </div>
   </div>
   </div>
-<script src="./script/header-opening.js"></script>
+ 
   <script>
  const togglePassword = document.getElementById('togglePassword');
 const togglePasswordConfirm = document.getElementById('togglePassword_confirm');
@@ -365,8 +367,9 @@ togglePasswordConfirm.addEventListener('click', () => {
   togglePasswordConfirm.src = type === 'password' ?  './images/Vector-password.svg' : './images/eye.svg' ;
 });
 
-
   </script>
+<script src="./script/header-opening.js"></script>
+
 </body>
 
 </html>

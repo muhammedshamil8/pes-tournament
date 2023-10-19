@@ -43,23 +43,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Seee us -login</title>
+
+
   <link rel="stylesheet" href="styles/login.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preload" href="./images/player-image.svg" as="image">
+
+
 </head>
 
 <body>
 <header>
   <div class="header">
-  <h1 class="title" onclick="window.location = 'index.php';">seeee<span>.</span>us</h1>
+  <h1 class="title" onclick="window.location='index.php';">seeee<span>.</span>us</h1>
         <input type="checkbox" id="nav-toggle" class="input-nav">
         <div class="nav-icon">
         <label for="nav-toggle" >
@@ -79,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a href="#">Contact</a>
 </nav>
 
-      <div class="body">
+      <div class="body"  id="content">
 
 
     <div class="login-container">
@@ -134,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 </div>
 
-<p class="forget-pass" onclick="showForgetPassMessage()">Forget password?</p>
+<p class="forget-pass" onclick="showForgetPassMessage();">Forget password?</p>
 
           <button type="submit" class="btn-login">Login<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
@@ -144,30 +149,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php
         echo '<p class="error_message">' . $error_msg . '</p>';
         ?>
-        <p class="change">Don't have an account ?<a href="register.php">Sign up</a></p>
+        <p class="change">Don't have an account ?<button onclick="window.location='./register.php';" >Sign up</button></p>
       </div>
     <div class="login-image">
-      <button onclick="
-      window.location = 'intro-page.php';
-      ">
+      <button onclick="window.location='intro-page.php';">
       <img src="./images/Vecto-rclose.svg" />
       </button>
         <img src="./images/player-image.svg" alt="player-image" class="player-image">
       </div>
   </div>
   </div>
-<script src="./script/header-opening.js"></script>
+<script src="script/header-opening.js"></script>
+
   <script>
     const togglePassword = document.getElementById('togglePassword');
-const passwordField = document.getElementById('password');
+    const passwordField = document.getElementById('password');
 
 togglePassword.addEventListener('click', () => {
   const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
   passwordField.setAttribute('type', type);
+  togglePassword.src = type === 'password' ?  './images/Vector-password.svg' : './images/eye.svg' ;
+
   // togglePassword.classList.toggle('fa-eye-slash');
 });
-
   </script>
+ 
+  
 </body>
 
 </html>

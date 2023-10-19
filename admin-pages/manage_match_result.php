@@ -5,12 +5,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 session_start();
-require_once "connect_db.php"; // Connect to your database
+require_once "../connect_db.php"; // Connect to your database
 
 // Check if the admin is logged in
 if (!isset($_SESSION['admin_username'])) {
     echo "Unauthorized access. Please log in as an admin.";
-    header("Location: admin.php");
+    header("Location: ../admin.php");
     exit();
 }
 
@@ -73,8 +73,8 @@ $stmt->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage User Profiles</title>
-    <link rel="stylesheet" href="styles/admin-general.css">
-    <link rel="stylesheet" href="styles/general.css">
+    <link rel="stylesheet" href="../styles/admin-general.css">
+    <link rel="stylesheet" href="../styles/general.css">
     <style>
         /* Add your specific styles for the Manage Match Result page */
         body {

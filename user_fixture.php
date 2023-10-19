@@ -29,7 +29,7 @@ $matchesQuery = "SELECT matches.*, teams1.user_id AS user_id_team1, teams2.user_
                  JOIN teams AS teams1 ON matches.team1_id = teams1.team_id 
                  JOIN teams AS teams2 ON matches.team2_id = teams2.team_id 
                  WHERE matches.tournament_id = ? 
-                 AND (teams1.user_id = ? OR teams2.user_id = ?) and matches.match_status = 0";
+                 AND (teams1.user_id = ? OR teams2.user_id = ?) and matches.match_status = 0 order by match_id";
 
 
 

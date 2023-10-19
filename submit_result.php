@@ -11,6 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $your_score = $_POST["team1_score"];
     $opponent_score = $_POST["team2_score"];
     $message = $_POST["message"];
+    $image_path = $_POST["image"];
   $match_active = $_POST["match_active"];
     // Add code to handle image upload if needed
     // Save image to appropriate location and get the image path
@@ -25,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $user_id = $_SESSION['user_id'];
     $tournament_id  = $_SESSION['tournament_id'];
-    $image_path = "path/to/your/image.jpg"; // Replace with the actual image path
 
     if ($stmt->execute()) {
         header("Location: user_fixture.php?tournament_id=$tournament_id"); // Redirect to display next match
@@ -35,3 +35,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
+<!-- 
+#	Name	Type	Collation	Attributes	Null	Default	Comments	Extra	Action
+	1	id Primary	int			No	None		AUTO_INCREMENT	Change Change	Drop Drop	
+	2	tournament_id Index	int			No	None			Change Change	Drop Drop	
+	3	user_id Index	int			No	None			Change Change	Drop Drop	
+	4	match_id Index	int			No	None			Change Change	Drop Drop	
+	5	result_image	varchar(255)	utf8mb4_0900_ai_ci		Yes	NULL			Change Change	Drop Drop	
+	6	team1_score	int			Yes	NULL			Change Change	Drop Drop	
+	7	team2_score	int			Yes	NULL			Change Change	Drop Drop	
+	8	message	varchar(50)	utf8mb4_0900_ai_ci		Yes	NULL			Change Change	Drop Drop	
+	9	match_active	int			No	0			Change Change	Drop Drop	
+ -->

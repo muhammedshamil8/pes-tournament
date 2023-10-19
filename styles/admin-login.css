@@ -94,6 +94,7 @@
        align-items: center;
        justify-content: center;
        padding-left: 25px;
+       z-index: 10;
      }
      
      .card-flex-intro {
@@ -241,7 +242,7 @@
        }
      }
    
-     @media (max-width:1209px) {
+     @media (max-width:1399px) {
        .login-container {
          height: fit-content;
          width: 90%;
@@ -390,7 +391,7 @@
        }
        .body {
          background-image: url('/images/real\ madrid\ 2bg-fon.jpg');
-         background-size: 100% 60%;
+         background-size: 100% 55%;
          background-position: top;
          background-repeat: no-repeat;
          display: flex;
@@ -421,13 +422,13 @@
      .underline {
        width: 130px;
      }
-     form {
+     /* form {
        display: block;
        min-width: 100%;
-     }
+     } */
      
      .forget-pass {
-       bottom: 70px;
+       bottom:65px;
        left: 1px;
      }
      

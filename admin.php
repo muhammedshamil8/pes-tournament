@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($hashed_input_password === $hashed_password_from_db) {
             // Passwords match, proceed with login
             $_SESSION['admin_username'] = $username;
-            header("Location: admin_home.php"); // Redirect to the admin dashboard
+            header("Location: ./admin-pages/admin_home.php"); // Redirect to the admin dashboard
             exit();
         } else {
             $error_msg = "Invalid password. Please try again.";
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html >
 
 <head>
 <meta charset="UTF-8">
@@ -49,13 +49,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preload" href="./images/player-image.svg" as="image">
+
 
 </head>
-
-<body>
+<!--  onclick="loadDoc('index.php')" -->
+<!--  onclick="window.location='index.php';" -->
+<body id="content">
 <header>
   <div class="header">
-  <h1 class="title" onclick="window.location = 'index.php';">seeee<span>.</span>us</h1>
+  <!-- <div class="seeus"> -->
+  <h1 class="title" onclick="window.location='index.php';">seeee<span>.</span>us</h1>
+  <!-- </div> -->
         <input type="checkbox" id="nav-toggle" class="input-nav">
         <div class="nav-icon">
         <label for="nav-toggle" >
@@ -128,28 +133,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
       <div class="login-image">
-      <button onclick="
-      window.location = 'index.php';
-      ">
+      <button onclick="window.location='index.php';">
       <img src="./images/Vecto-rclose.svg" />
       </button>
         <img src="./images/player-image.svg" alt="player-image" class="player-image">
       </div>
   </div>
   </div>
+  <div id="loading-page">
+      <div class="spinner"></div>
+  </div>
 <script src="./script/header-opening.js"></script>
   <script>
     const togglePassword = document.getElementById('togglePassword');
-const passwordField = document.getElementById('password');
+    const passwordField = document.getElementById('password');
 
 togglePassword.addEventListener('click', () => {
   const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
   passwordField.setAttribute('type', type);
+  togglePassword.src = type === 'password' ?  './images/Vector-password.svg' : './images/eye.svg' ;
+
   // togglePassword.classList.toggle('fa-eye-slash');
 });
-function loading(){
-    alert('Bro ')
-}
   </script>
 
 </body>

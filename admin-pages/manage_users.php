@@ -5,12 +5,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 session_start();
-require_once "connect_db.php"; // Connect to your database
+require_once "../connect_db.php"; // Connect to your database
 
 // Check if the admin is logged in
 if (!isset($_SESSION['admin_username'])) {
     echo "Unauthorized access. Please log in as an admin.";
-    header("Location: admin.php");
+    header("Location: ../admin.php");
     exit();
 }
 
@@ -34,7 +34,7 @@ if ($tournament_id === null) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage User Profiles</title>
-    <link rel="stylesheet" href="styles/general.css"> <!-- Your custom CSS file -->
+    <link rel="stylesheet" href="../styles/general.css"> <!-- Your custom CSS file -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome for icons -->
     <style>
 body {
@@ -225,8 +225,9 @@ body {
                                   <p><strong>Club:</strong> ' . $clubName . '</p>
                                   <p><strong>User ID:</strong> ' . $row['user_id'] . '</p>
                                   <p><strong>Phone Number:</strong> ' . $row['phone_number'] . '</p>
-                                  <button>Edit</button>
-                                  <button>Delete</button>
+                                  <button onclick="editUser(' . $row["user_id"] . ');  ">Edit</button>
+                                  <button onclick="deleteUser(' . $row["user_id"] . ',' . $row["tournament_id"] . ');">Delete</button>
+
                               </div>
                             </div>';
                       $position += 1;
@@ -247,6 +248,23 @@ body {
                     d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
             </svg></button>
     </a>
+    <!-- Inside the <script> section -->
+    <script>
+    function editUser(userId) {
+        // Redirect to the edit user page with the user ID
+        window.location.href = `manage_user_edit.php?user_id=${userId}`;
+    }
+
+    function deleteUser(userId, tournament_id) {
+        // Prompt for confirmation
+        if (confirm("Are you sure you want to delete the user from this tournament?")) {
+            // Redirect to the delete user page
+            window.location.href = `manage_user_delete.php?user_id=${userId}&tournament_id=${tournament_id}`;
+        }
+    }
+</script>
+
+
 </body>
 </html>
 

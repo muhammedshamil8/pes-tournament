@@ -4,14 +4,15 @@
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Admin Edit</title>
-     <link rel="stylesheet" href="styles/admin-general.css">
-     <link rel="stylesheet" href="styles/general.css">
+     <link rel="stylesheet" href="../styles/admin-general.css">
+     <link rel="stylesheet" href="../styles/general.css">
      <style>
 
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
-
+    display:flex;
+    justify-content:center
 }
 
 div {
@@ -31,7 +32,7 @@ div p {
 </head>
 <body>
 <div>
-     Sorry, I think it's not good to show the admin edit option.<br>
+     Sorry, I think it's not good to show the admin edit option.<br><br>
      If you need it, let me know and I will add it.
      </div>
      <a href="admin_home.php">

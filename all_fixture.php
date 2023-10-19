@@ -32,7 +32,7 @@ if (!isset($_SESSION['user_id'])) {
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Manage User Profiles</title>
+     <title>Seee us -fixture</title>
      <link rel="stylesheet" href="styles/admin-general.css">
      <link rel="stylesheet" href="styles/general.css">
 <style>
@@ -148,7 +148,7 @@ height:30px;
 </head>
 <body>
     <header>
-        <h1> match Result</h1>
+        <h1> Tournament Fixture</h1>
       <?php
       echo $user_id;
       ?>
@@ -183,7 +183,7 @@ height:30px;
         <?php
      $position = 0;
      if ($result->num_rows == 0) {
-      echo '<tr><td colspan="7">No match details available for this tournament.</td></tr>';
+      echo '<tr><td colspan="7">organizer didnt upload  fixture of  this tournament.</td></tr>';
   } else {
        while ($row = $result->fetch_assoc()) {
         $m_team1_id = $row['team1_id'];

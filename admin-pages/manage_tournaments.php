@@ -5,14 +5,15 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 session_start();
-require_once "connect_db.php"; // Connect to your database
+require_once "../connect_db.php"; // Connect to your database
 
 // Check if the admin is logged in
 if (!isset($_SESSION['admin_username'])) {
     echo "Unauthorized access. Please log in as an admin.";
-    header("Location: admin.php");
+    header("Location: ../admin.php");
     exit();
 }
+
 $tournament_id = isset($_GET['tournament_id']) ? $_GET['tournament_id'] : null;
 
 // Check if a valid tournament ID is provided
@@ -20,25 +21,22 @@ if ($tournament_id === null) {
     echo "Invalid tournament ID.";
     exit();
 }
-// Fetch tournaments from the database
+
+// Fetch tournament from the database
 $tournament_query = $conn->prepare("SELECT * FROM tournament WHERE tournament_id = ?");
 $tournament_query->bind_param('i', $tournament_id);
 $tournament_query->execute();
 $tournament_result = $tournament_query->get_result();
 
-
 if (!$tournament_result) {
-    echo "Error fetching tournaments: " . $conn->error;
+    echo "Error fetching tournament: " . $conn->error;
     exit();
 }
 
-
 $error_msg = '';
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $action = $_POST['action'];
-    $tournament_id = isset($_POST['tournament_id']) ? $_POST['tournament_id'] : null;
+    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
     if ($action === 'edit') {
         // Handle tournament edit
@@ -46,55 +44,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $edited_start_date = isset($_POST['start_date']) ? $_POST['start_date'] : null;
         $edited_tournament_type = isset($_POST['tournament_type']) ? $_POST['tournament_type'] : null;
 
-       // Build the query based on provided data
-$query_tournament = "UPDATE tournament SET ";
+        // Build the query based on provided data
+        $query_tournament = "UPDATE tournament SET ";
+        $updates = array();
 
-// Initialize an array to store updates
-$updates = array();
-
-if (!empty($edited_tournament_name)) {
-    $updates[] = "tournament_name = '$edited_tournament_name'";
-}
-
-// Check if start_date is not empty before adding it to updates
-if (!is_null($edited_start_date) && $edited_start_date !== '') {
-    $updates[] = "start_date = '$edited_start_date'";
-}
-
-if (!is_null($edited_tournament_type)) {
-    $updates[] = "model = '$edited_tournament_type'";
-}
-
-// Ensure we have updates to perform
-if (!empty($updates)) {
-    $query_tournament .= implode(', ', $updates);
-    $query_tournament .= " WHERE tournament_id = $tournament_id ";
-
-
-    // Update the tournament
-    if ($conn->query($query_tournament) === TRUE) {
-        $error_msg = "Tournament updated successfully: $edited_tournament_name";
-    } else {
-        $error_msg = "Error updating the tournament: " . $conn->error;
-    }
-} else {
-    $error_msg = "No updates provided.";
-}
-    } elseif ($action === 'delete') {
-        // Handle tournament deletion
-        // Implement deletion logic here
-
-        // Sample deletion query (please customize according to your database structure)
-        $delete_query = "DELETE FROM tournament WHERE tournament_id = $tournament_id";
-        if ($conn->query($delete_query) === TRUE) {
-            $error_msg = "Tournament deleted successfully.";
-        } else {
-            $error_msg = "Error deleting the tournament: " . $conn->error;
+        if (!empty($edited_tournament_name)) {
+            $updates[] = "tournament_name = '$edited_tournament_name'";
         }
-    } elseif ($action === 'stop' || $action === 'start') {
-        $registration_open = ($action === 'stop') ? 0 : 1;
 
-        // Update the registration status
+        if (!is_null($edited_start_date) && $edited_start_date !== '') {
+            $updates[] = "start_date = '$edited_start_date'";
+        }
+
+        if (!is_null($edited_tournament_type)) {
+            $updates[] = "model = '$edited_tournament_type'";
+        }
+
+        if (!empty($updates)) {
+            $query_tournament .= implode(', ', $updates);
+            $query_tournament .= " WHERE tournament_id = $tournament_id";
+
+            // Update the tournament
+            if ($conn->query($query_tournament) === TRUE) {
+                $error_msg = "Tournament updated successfully: '$edited_tournament_name'";
+                header("Location: manage_tournaments.php?tournament_id=$tournament_id"); // Redirect to the admin dashboard
+                exit();
+            } else {
+                $error_msg = "Error updating the tournament: " . $conn->error;
+            }
+        } else {
+            $error_msg = "No updates provided.";
+        }
+    } elseif ($action === 'status') {
+        // Handle tournament status change (stop/start)
+        $registration_open = isset($_POST['stop']) ? 0 : 1;
+
         $query_tournament = "UPDATE tournament SET registration_open = $registration_open WHERE tournament_id = $tournament_id";
 
         if ($conn->query($query_tournament) === TRUE) {
@@ -105,17 +89,7 @@ if (!empty($updates)) {
     }
 }
 
-// Fetch tournaments from the database
-$tournament_query = $conn->prepare("SELECT * FROM tournament where tournament_id = $tournament_id");
-$tournament_query->execute();
-$tournament_result = $tournament_query->get_result();
-
-if (!$tournament_result) {
-    echo "Error fetching tournaments: " . $conn->error;
-    exit();
-}
-
-$conn->close();  // Close the database connection
+$conn->close(); // Close the database connection
 ?>
 
 
@@ -126,8 +100,8 @@ $conn->close();  // Close the database connection
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Manage Tournament</title>
-     <link rel="stylesheet" href="styles/admin-general.css">
-     <link rel="stylesheet" href="styles/general.css">
+     <link rel="stylesheet" href="../styles/admin-general.css">
+     <link rel="stylesheet" href="../styles/general.css">
      <style>
         table {
             width: 100%;
@@ -278,10 +252,10 @@ $conn->close();  // Close the database connection
 
         @keyframes slide-in {
             from {
-                transform: translateY(-50%);
+                transform: translateX(-50%);
             }
             to {
-                transform: translateY(0);
+                transform: translateX(0);
             }
         }
 
@@ -290,7 +264,7 @@ $conn->close();  // Close the database connection
                 transform: translate(0);
             }
             to {
-                transform: translateY(100%);
+                transform: translateX(100%);
             }
         }
     </style>
@@ -327,8 +301,6 @@ $conn->close();  // Close the database connection
                                 <td>{$row['start_date']}</td>
                                 <td>
                                     <a onclick='showEditCard();'>Edit</a><br>
-                                    <a onclick='showDeleteCard();'>Delete</a><br>
-
                                     <a onclick='showStopCard();'>Stop</a>
                                 </td>
                             </tr>";
@@ -336,6 +308,8 @@ $conn->close();  // Close the database connection
                     if ($tournament_result->num_rows == 0) {
                         echo "<tr><td colspan='5'>No data available</td></tr>";
                     }
+                    // <a onclick='showDeleteCard();'>Delete</a><br>
+                    
                     ?>
                 </tbody>
             </table>
@@ -347,7 +321,7 @@ $conn->close();  // Close the database connection
 
 
     <div class="card edit-card" id="editCard">
-    <button onclick="hideEditCard();" class="card-close-btn" id=""><img src="images/x-lg.svg" class="close-img"></button>
+    <button onclick="hideEditCard();" class="card-close-btn" id=""><img src="../images/x-lg.svg" class="close-img"></button>
                 <!-- Tournament edit card content -->
                 <div class="card">
   
@@ -375,8 +349,8 @@ $conn->close();  // Close the database connection
       </div>
             </div>
 
-            <div class="card delete-card" id="deleteCard">
-                <!-- Tournament delete card content -->
+            <!-- <div class="card delete-card" id="deleteCard">
+                Tournament delete card content
                 <button onclick="hideDeleteCard();" class="card-close-btn" id=""><img src="images/x-lg.svg" class="close-img"></button>
                 <div class="card">
                 <p>Are you sure you want to delete the tournament? 
@@ -387,15 +361,15 @@ $conn->close();  // Close the database connection
                 </form>
                 </p>
             </div>
-            </div>
+            </div> -->
 
             <div class="card stop-card" id="stopCard">
-            <button onclick="hideStopCard();" class="card-close-btn" id=""><img src="images/x-lg.svg" class="close-img"></button>
+            <button onclick="hideStopCard();" class="card-close-btn" id=""><img src="../images/x-lg.svg" class="close-img"></button>
                 <!-- Tournament stop card content -->
                 <div class="card">
                 card stop registeration to tournament
                 <form action="" method="post">
-    <input type="hidden" name="action">
+    <input type="hidden" name="action" value="status">
     <button type="submit" name="stop" value="stop">Stop</button>
     <button type="submit" name="start" value="start">Start</button>
 </form>
@@ -406,11 +380,7 @@ $conn->close();  // Close the database connection
 
 
     <a href="tournament_home.php?tournament_id=<?php echo $tournament_id; ?>">
-        <button class="return"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-arrow-left-square" viewBox="0 0 16 16">
-                <path fill-rule="evenodd"
-                    d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
-            </svg></button>
+        <button class="return" style="background-color:lightblue"><img src="../images/x-lg.svg" class="close-img" > </button>
     </a>
 
    

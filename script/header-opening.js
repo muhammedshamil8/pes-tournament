@@ -85,7 +85,10 @@ function loadingprocess(){
   }
   loadData();
 }
-loadingprocess()
+loadingprocess();
+
+
+
 // function simulateLoading() {
 //   let progressBar = document.getElementById('progress-bar');
 //   let progressText = document.getElementById('progress-text');
@@ -119,3 +122,57 @@ loadingprocess()
 // document.getElementById('start-loading-btn').addEventListener('click', function () {
 //   simulateLoading();
 // });
+// ajax function
+function loadDoc(url) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("content").innerHTML = this.responseText;
+      // Change the URL without page refresh
+      history.pushState(null, null, url);
+      // Reinitialize event listeners for navigation toggle
+      initNavToggleListeners();
+      
+// loadpage();
+
+    }
+  };
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+function loadpage(){
+  function showLoading() {
+    document.getElementById('loading-page').style.display = 'block';
+  }
+  
+  function hideLoading() {
+    document.getElementById('loading-page').style.display = 'none';
+  }
+  
+  function loadData() {
+    showLoading();
+    setTimeout(function() {
+      
+      hideLoading();
+    }, 2000); 
+  }
+  loadData();
+}
+function initNavToggleListeners() {
+  const navToggle = document.getElementById('nav-toggle');
+  const navContent = document.querySelector('.nav-content');
+  const header = document.querySelector('header');
+
+  navToggle.addEventListener('change', () => {
+    if (navToggle.checked) {
+      navContent.style.display = 'flex';
+      navContent.classList.remove('hidden');
+      header.classList.add('hidden');
+    } else {
+      navContent.classList.add('hidden');
+      header.classList.remove('hidden');
+    }
+  });
+}
+
+

@@ -5,12 +5,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 session_start();
-require_once "connect_db.php"; // Connect to your database
+require_once "../connect_db.php"; // Connect to your database
 
 // Check if the admin is logged in
 if (!isset($_SESSION['admin_username'])) {
     echo "Unauthorized access. Please log in as an admin.";
-    header("Location: admin.php");
+    header("Location: ../admin.php");
     exit();
 }
 
@@ -27,6 +27,25 @@ if ($tournament_id === null) {
 // TODO: Fetch and display user profiles for the given tournament ID
 // You'll need to fetch and display the user profiles associated with this tournament ID.
 
+// Use a prepared statement to prevent SQL injection
+$sql = "SELECT * FROM result_from_user WHERE tournament_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $tournament_id);
+$stmt->execute();
+
+$result = $stmt->get_result();
+
+$resultCardDetails = array();
+
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $resultCardDetails[] = $row;
+    }
+}
+$stmt->close();
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -35,8 +54,8 @@ if ($tournament_id === null) {
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Manage User Profiles</title>
-     <link rel="stylesheet" href="styles/admin-general.css">
-     <link rel="stylesheet" href="styles/general.css">
+     <link rel="stylesheet" href="../styles/admin-general.css">
+     <link rel="stylesheet" href="../styles/general.css">
 <style>
     /* Add your specific styles for the Manage User Profiles page */
 
@@ -144,36 +163,65 @@ height:30px;
 }
 
 .card-container2 {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+}
 
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
+.card {
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 5px;
+    min-width: 300px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    text-align: center;
+}
 
-        button:hover {
-            background-color: #45a049;
-        }
+.card img {
+    max-width: 100%;
+    max-height: 200px;
+    margin-top: 10px;
+}
 
-        .card {
-            border: 1px solid #000;
-            padding: 20px;
-            text-align: center;
-        }
+.card p {
+    margin: 5px 0;
+}
 
-        .card img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-        }
+.card .score {
+    color: green; /* Change color to your preference */
+}
+
+.card .match-active-yes {
+    color: blue; /* Change color to your preference */
+}
+
+.card .match-active-no {
+    color: red; /* Change color to your preference */
+}
+.match-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .match-card {
+        border: 1px solid #ccc;
+        margin: 10px;
+        padding: 10px;
+        width: 300px; /* Adjust the width as needed */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .match-card img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .match-card p {
+        text-align: center;
+    }
 </style>
 <script>
         function generateTable() {
@@ -199,6 +247,7 @@ height:30px;
             generateButton.style.display = 'none';
             stopButton.style.display = 'block';
         }
+       
 
         function hideTable() {
             const table = document.querySelector('.league_table');
@@ -209,6 +258,84 @@ height:30px;
             generateButton.style.display = 'block';
             stopButton.style.display = 'none';
         }
+        function showAllCards() {
+    // Your existing JavaScript function for showing all cards
+    // ...
+
+    // Add an id attribute to each card for filtering
+    const cards = document.querySelectorAll('.card');
+    cards.forEach((card, index) => {
+        card.id = `card-${index}`;
+    });
+}
+function showAllCards() {
+    // Your existing JavaScript function for showing all cards
+    // ...
+
+    // Add an id attribute to each card for filtering
+    const cards = document.querySelectorAll('.card');
+    cards.forEach((card, index) => {
+        card.id = `card-${index}`;
+    });
+}
+
+function search() {
+    const searchInput = document.getElementById('searchInput').value;
+    const cards = document.querySelectorAll('.card');
+    let resultsFound = false;
+
+    cards.forEach(card => {
+        card.style.display = 'none'; // Hide all cards initially
+    });
+
+    // Iterate through the cards and show only the ones that match the search input
+    cards.forEach(card => {
+        const matchId = card.querySelector('p:nth-child(2)').textContent; // Assumes match_id is in the second <p> element
+        if (matchId.includes(searchInput)) {
+            card.style.display = 'inline-block';
+            resultsFound = true;
+        }
+    });
+
+    const noResultsMessage = document.querySelector('.no-results');
+    if (noResultsMessage) {
+        noResultsMessage.remove(); // Remove the message if it was previously displayed
+    }
+
+    if (!resultsFound) {
+        const noResultsMessage = document.createElement('p');
+        noResultsMessage.textContent = 'No results found.';
+        noResultsMessage.className = 'no-results';
+        document.getElementById('cardsContainer').appendChild(noResultsMessage);
+    }
+}
+function search1() {
+    const searchInput = document.getElementById('searchInput1').value;
+    const rows = document.querySelectorAll('.match_table tbody tr');
+    let resultsFound = false;
+
+    rows.forEach(row => {
+        const matchId = row.querySelector('td:nth-child(1)').textContent; // Adjust the column index as needed
+        if (matchId.includes(searchInput)) {
+            row.style.display = 'table-row';
+            resultsFound = true;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    const noResultsMessage = document.querySelector('.no-results');
+    if (noResultsMessage) {
+        noResultsMessage.remove(); // Remove the message if it was previously displayed
+    }
+
+    if (!resultsFound) {
+        const noResultsMessage = document.createElement('tr');
+        noResultsMessage.className = 'no-results';
+        noResultsMessage.innerHTML = '<td colspan="8">No results found.</td>';
+        document.querySelector('.match_table tbody').appendChild(noResultsMessage);
+    }
+}
     </script>
 </head>
 <body>
@@ -221,7 +348,8 @@ height:30px;
     </header>
 
     <main>
-   
+    <div id="success-message" style="display: none;"></div>
+
         
         <button class="show" onclick="generateTable();">show the league table</button>
 <button class="hide" onclick="hidetheTable();">hide the league table</button>
@@ -355,38 +483,91 @@ height:30px;
         </div>
 
 
-        <div class="container">
+       
+<div class="container">
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="Match number">
         <button onclick="search()">Search</button>
     </div>
-    <div class="card-container">
-        <button onclick="showAllCards()">Show All Cards</button>
+    <div class="card-container2">
         <div id="cardsContainer">
-            <!-- Cards will be dynamically added here -->
+            <?php
+            if (!empty($resultCardDetails)) {
+                foreach ($resultCardDetails as $index => $row) {
+                    echo '<div class="card" id="card-' . $index . '">';
+                    echo "<p>ID: " . $row['id'] . "</p>";
+                    echo "<p>Match ID: " . $row['match_id'] . "</p>";
+                    echo "<img src='" . $row['result_image'] . "' alt='Image Alt Text' />";
+                    echo "<p class='score'>Team 1 Score: " . $row['team1_score'] . " - Team 2 Score: " . $row['team2_score'] . "</p>";
+                    echo "<p>Message: " . $row['message'] . "</p>";
+                    echo "<p class='match-active-" . ($row['match_active'] === 1 ? 'yes' : 'no') . "'>" . ($row['match_active'] === 1 ? 'Yes' : 'No') . "</p>";
+                    echo '</div>';
+                }
+            } else {
+                echo "<p>No data</p>";
+            }
+            ?>
+            <?php
+            if (!empty($resultCardDetails)) {
+                foreach ($resultCardDetails as $index => $row) {
+                    echo '<div class="card" id="card-' . $index . '">';
+                    echo "<p>ID: " . $row['id'] . "</p>";
+                    echo "<p>Match ID: " . $row['match_id'] . "</p>";
+                    echo "<img src='" . $row['result_image'] . "' alt='Image Alt Text' />";
+                    echo "<p class='score'>Team 1 Score: " . $row['team1_score'] . " - Team 2 Score: " . $row['team2_score'] . "</p>";
+                    echo "<p>Message: " . $row['message'] . "</p>";
+                    echo "<p class='match-active-" . ($row['match_active'] === 1 ? 'yes' : 'no') . "'>" . ($row['match_active'] === 1 ? 'Yes' : 'No') . "</p>";
+                    echo '</div>';
+                }
+            } else {
+                echo "<p>No data</p>";
+            }
+            ?>
+            <?php
+            if (!empty($resultCardDetails)) {
+                foreach ($resultCardDetails as $index => $row) {
+                    echo '<div class="card" id="card-' . $index . '">';
+                    echo "<p>ID: " . $row['id'] . "</p>";
+                    echo "<p>Match ID: " . $row['match_id'] . "</p>";
+                    echo "<img src='" . $row['result_image'] . "' alt='Image Alt Text' />";
+                    echo "<p class='score'>Team 1 Score: " . $row['team1_score'] . " - Team 2 Score: " . $row['team2_score'] . "</p>";
+                    echo "<p>Message: " . $row['message'] . "</p>";
+                    echo "<p class='match-active-" . ($row['match_active'] === 1 ? 'yes' : 'no') . "'>" . ($row['match_active'] === 1 ? 'Yes' : 'No') . "</p>";
+                    echo '</div>';
+                }
+            } else {
+                echo "<p>No data</p>";
+            }
+            ?>
         </div>
     </div>
 </div>
 
-    <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Match number">
-            <button onclick="search2()">Search</button>
+<div class="search-container">
+    <input type="text" id="searchInput1" placeholder="Match number">
+    <button onclick="search1()">Search</button>
+</div>
+<table class="match_table">
+  <?php
+$query = "SELECT matches.*, teams1.user_id AS user_id1, teams2.user_id AS user_id2
+          FROM matches
+          JOIN teams AS teams1 ON matches.team1_id = teams1.team_id
+          JOIN teams AS teams2 ON matches.team2_id = teams2.team_id
+          WHERE matches.tournament_id = ?
+          ORDER BY matches.match_status, matches.match_id ASC";
 
-        </div>
-        <table class="match_table">
-              <?php
-              $query = "SELECT * FROM matches WHERE tournament_id = ? order by match_status asc";
-              $stmt = $conn->prepare($query);
-              $stmt->bind_param("i", $tournament_id);
-              $stmt->execute();
-              
-              $result = $stmt->get_result();
-              ?>
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $tournament_id);
+$stmt->execute();
+
+$result = $stmt->get_result();
+
+  ?>
+             
        
     <thead>
         <tr>
             <th>Match ID</th>
-            <th>Tournament ID</th>
             <th>Team 1 ID</th>
             <th>Team 2 ID</th>
             <th>Match Date</th>
@@ -566,43 +747,50 @@ height:30px;
         $match_status = "Error";
      };
    $position ++;
-        echo "<tr>
-        <tr><td colspan='8'>Match # {$position}</td></tr>
-            <td>{$row['match_id']}</td>
-            <td>{$row['tournament_id']}</td>
+        echo "<tr data-match-id='{$row['match_id']}' data-tournament-id='{$row['tournament_id']}' data-team-id1='$m_team1_id' data-team-id2='$m_team2_id'>
+        
+            <td>
+            Match # {$position}<br>{$row['match_id']}
+            </td>
                                         <td>club id:$m_team1_club_id<br> <div class='match-team--intable'><img class='match-team-image-intable' src='$image_team1' alt='club logo'>
                                         <p>$clubName_team1</p></div></td>
                                         <td>club id:$m_team2_club_id<br> <div class='match-team--intable'><img class='match-team-image-intable' src='$image_team2' alt='club logo'>
                                         <p>$clubName_team2</p></div></td>
             <td>{$row['match_date']}</td>
-            <td>{$row['team1_result']}<br>
-                <select>
-                    <option disabled selected>Result</option>
-                    <option value='1'>Won</option>
-                    <option value='-1'>Loss</option>
-                    <option value='0'>Draw</option>
-                </select><br>
-                <button>Upload</button>
-            </td>
-            <td>{$row['team2_result']}<br>
-                <select>
-                    <option disabled selected>Result</option>
-                    <option value='1'>Won</option>
-                    <option value='-1'>Loss</option>
-                    <option value='0'>Draw</option>
-                </select><br>
-                <button>Upload</button>
-            </td>
-            <td>$match_status<br>
-                <select>
-                    <option disabled selected>Update</option>
-                    <option value='1'>Played</option>
-                    <option value='0'>not played</option>
-                </select><br>
-                <button>Save</button>
-            </td>
-        </tr>";
-    }
+            <td>
+    {$row['team1_result']}<br>
+    <select data-result='team1Result' required>
+        <option disabled selected>Result</option>
+        <option value='1'>Won</option>
+        <option value='-1'>Loss</option>
+        <option value='0'>Draw</option>
+    </select><br>
+    <br>
+    <input type='number' min='0' data-score='team1score' placeholder='score_team1' required/>
+</td>
+<td>
+    {$row['team2_result']}<br>
+    <select data-result='team2Result' required>
+        <option disabled selected>Result</option>
+        <option value='1'>Won</option>
+        <option value='-1'>Loss</option>
+        <option value='0'>Draw</option>
+    </select><br>
+    <br>
+    <input type='number' min='0' data-score='team2score' placeholder='score_team2' required/>
+</td>
+<td>
+    $match_status<br>
+    <select data-update='updateStatus'>
+        <option disabled selected>Update</option>
+        <option value='1'>Played</option>
+        <option value='0'>Not Played</option>
+    </select><br><br>
+    <button class='submit-button'>Upload</button>
+</td>
+
+    </tr>";
+}
         ?>
     </tbody>
 </table>
@@ -633,123 +821,51 @@ Matches
                     d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
             </svg></button>
     </a>
-    <script>
-      function search2() {
-    const matchId = document.getElementById('searchInput').value.toLowerCase();
-    const tableRows = document.querySelectorAll('#matchTableBody tr');
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   $(document).ready(function () {
+    $(".submit-button").on("click", function () {
+        const $tr = $(this).closest("tr");
+        const matchId = $tr.data("match-id");
+        const tournamentId = $tr.data("tournament-id");
+        const team1Result = $tr.find("select[data-result='team1Result']").val();
+        const team2Result = $tr.find("select[data-result='team2Result']").val();
+        const updateStatus = $tr.find("select[data-update='updateStatus']").val();
+        const team1 = $tr.data("team-id1"); // Get the user_id for team 1
+        const team2 = $tr.data("team-id2"); // Get the user_id for team 2
+        const team1Score = $tr.find("input[data-score='team1score']").val();
+        const team2Score = $tr.find("input[data-score='team2score']").val();
 
-    tableRows.forEach(row => {
-        const matchIdCell = row.querySelector('td:first-child');  // Updated selector to target the first cell
-        if (matchIdCell) {
-            const matchIdText = matchIdCell.textContent || matchIdCell.innerText;
+        $.ajax({
+    type: "POST",
+    url: "your_server_script.php",
+    data: {
+    match_id: matchId,
+    tournament_id: tournamentId,
+    team1_result: team1Result,
+    team2_result: team2Result,
+    update_status: updateStatus,
+    team_id1: team1,
+    team_id2: team2,
+    team1_score: team1Score,
+    team2_score: team2Score
+},
 
-            if (matchIdText.toLowerCase().includes(matchId)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
+success: function (response) {
+    console.log("Data sent successfully: " + JSON.stringify(response));
+
+    // Reload the page after a successful upload
+    window.location.reload();
+},
+
+            error: function (xhr, status, error) {
+                console.error("Error sending data: " + error);
             }
-        }
+        });
     });
-}
+});
 
+</script>
 
-      function search() {
-    // Fetch match_id from the input field
-    const matchId = document.getElementById('searchInput').value;
-
-    // Use matchId to fetch card details from the result_from_user table
-    // Make an API call or use AJAX to fetch data from your server
-    // Replace the following code with the actual fetching logic
-    const cardDetails = fetchCardDetailsFromDatabase(matchId);
-
-    // Display the fetched card details
-    displayCardDetails(cardDetails);
-}
-
-function fetchCardDetailsFromDatabase(matchId) {
-    // Simulated card details
-    return [
-        {
-            id: 1,
-            tournament_id: 123,
-            user_id: 456,
-            match_id: 1,
-            result_image: 'path_to_image1.jpg',
-            team1_score: 2,
-            team2_score: 1,
-            message: 'Great match!',
-            match_active: 1
-        },
-        {
-            id: 2,
-            tournament_id: 123,
-            user_id: 789,
-            match_id: 2,
-            result_image: 'path_to_image2.jpg',
-            team1_score: 3,
-            team2_score: 0,
-            message: 'Awesome victory!',
-            match_active: 1
-        }
-    ];
-}
-
-function displayCardDetails(cardDetails) {
-    const cardsContainer = document.getElementById('cardsContainer');
-    cardsContainer.innerHTML = '';
-
-    cardDetails.forEach(card => {
-        const cardDiv = document.createElement('div');
-        cardDiv.classList.add('card');
-
-        const cardContent = `
-            <p>Name: ${card.user_id}</p>
-            <img src="${card.result_image}" alt="Image Alt Text">
-            <p>Score: ${card.team1_score} - ${card.team2_score}</p>
-            <p>Message: ${card.message}</p>
-            <p>Match Active: ${card.match_active === 1 ? 'Yes' : 'No'}</p>
-        `;
-
-        cardDiv.innerHTML = cardContent;
-        cardsContainer.appendChild(cardDiv);
-    });
-}
-
-function showAllCards() {
-    const cardsContainer = document.getElementById('cardsContainer');
-    cardsContainer.innerHTML = '';  // Clear the container to show all cards
-
-    // Fetch all card details (you can modify this based on your actual data retrieval)
-    const allCardDetails = [
-        {
-            id: 1,
-            tournament_id: 123,
-            user_id: 456,
-            match_id: 1,
-            result_image: 'path_to_image1.jpg',
-            team1_score: 2,
-            team2_score: 1,
-            message: 'Great match!',
-            match_active: 1
-        },
-        {
-            id: 2,
-            tournament_id: 123,
-            user_id: 789,
-            match_id: 2,
-            result_image: 'path_to_image2.jpg',
-            team1_score: 3,
-            team2_score: 0,
-            message: 'Awesome victory!',
-            match_active: 1
-        }
-        // Add more card details as needed
-    ];
-
-    // Display all card details
-    displayCardDetails(allCardDetails);
-}
-
-    </script>
 </body>
 </html>

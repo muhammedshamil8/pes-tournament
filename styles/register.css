@@ -20,6 +20,7 @@
     justify-content: center;
     align-items: center;
     padding: 20px 20px;
+
   }
   
   
@@ -37,6 +38,7 @@
     width: 80%;
     backdrop-filter: blur(10px);
     animation: slideDown1 0.9s forwards;
+    margin: 5px;
   }
   
   @keyframes slideDown1 {
@@ -95,7 +97,7 @@
     justify-content: center;
     padding: 40px;
     padding-right: 0px;
-    z-index: 5;
+    z-index: 10;
   }
   
   .card-flex-intro {
@@ -173,6 +175,8 @@
     top: 8px;
     right: 3px;
     cursor:alias;
+    z-index: 11;
+
 
   }
   .icon svg{
@@ -292,10 +296,19 @@
     color: #fff;
     font-size: 10px;
     letter-spacing: 0.9px;
+    margin-bottom: 0px;
   }
   
-  .change > a {
+  .change > button {
     color: #FF4C8D;
+    letter-spacing: 0.8px;
+    background-color: transparent;
+    border: none;
+    font-size: 10px;
+  margin: 0;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
   }
   .error_message{
     color: red;
@@ -313,21 +326,8 @@
     }
   }
    
-  @media (max-width:1219px) {
-    .registration-container {
-      
-      width: 70%;
-      
-    }
-    .registration-image {
-      
-      margin-left: -90px; /* Adjusted margin */
-    }
-    
-   
-    
-  }
-  @media (max-width:1159px) {
+  
+  @media (max-width:1399px) {
     .registration-container {
       height: fit-content;
       width: 90%;
@@ -342,7 +342,7 @@
     }
     
     .player-image {
-      max-width: 450px; /* Adjusted width */
+      max-width: 440px; /* Adjusted width */
     }
     .registration-details {
       position: relative;
@@ -353,8 +353,9 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 50px;
-      padding-right: 0px;
+      /* padding: 1px 50px; */
+      padding: 0px;
+      padding-left:10px;
     }
     
   }
@@ -429,8 +430,10 @@
       height: fit-content;
       position: relative;
       width: 100%;
-      padding: 10px 40px;
+      padding: 5px 40px;
       backdrop-filter: blur(10px);
+      margin: 5px;
+      margin-top: 80px;
     }
     .registration-image{
       position:initial;
@@ -504,7 +507,7 @@
     }
     .body {
       background-image: url('/images/real\ madrid\ 2bg-fon.jpg');
-      background-size: 100% 60%;
+      background-size: 100% 55%;
       background-position: top;
       background-repeat: no-repeat;
       display: flex;
@@ -535,9 +538,9 @@
   .underline {
     width: 200px;
   }
-  form {
-    display: block;
-  }
+  /* form {
+    display: flex;
+  } */
   
   .forget-pass {
     cursor: pointer;
