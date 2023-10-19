@@ -507,38 +507,8 @@ function search1() {
                 echo "<p>No data</p>";
             }
             ?>
-            <?php
-            if (!empty($resultCardDetails)) {
-                foreach ($resultCardDetails as $index => $row) {
-                    echo '<div class="card" id="card-' . $index . '">';
-                    echo "<p>ID: " . $row['id'] . "</p>";
-                    echo "<p>Match ID: " . $row['match_id'] . "</p>";
-                    echo "<img src='" . $row['result_image'] . "' alt='Image Alt Text' />";
-                    echo "<p class='score'>Team 1 Score: " . $row['team1_score'] . " - Team 2 Score: " . $row['team2_score'] . "</p>";
-                    echo "<p>Message: " . $row['message'] . "</p>";
-                    echo "<p class='match-active-" . ($row['match_active'] === 1 ? 'yes' : 'no') . "'>" . ($row['match_active'] === 1 ? 'Yes' : 'No') . "</p>";
-                    echo '</div>';
-                }
-            } else {
-                echo "<p>No data</p>";
-            }
-            ?>
-            <?php
-            if (!empty($resultCardDetails)) {
-                foreach ($resultCardDetails as $index => $row) {
-                    echo '<div class="card" id="card-' . $index . '">';
-                    echo "<p>ID: " . $row['id'] . "</p>";
-                    echo "<p>Match ID: " . $row['match_id'] . "</p>";
-                    echo "<img src='" . $row['result_image'] . "' alt='Image Alt Text' />";
-                    echo "<p class='score'>Team 1 Score: " . $row['team1_score'] . " - Team 2 Score: " . $row['team2_score'] . "</p>";
-                    echo "<p>Message: " . $row['message'] . "</p>";
-                    echo "<p class='match-active-" . ($row['match_active'] === 1 ? 'yes' : 'no') . "'>" . ($row['match_active'] === 1 ? 'Yes' : 'No') . "</p>";
-                    echo '</div>';
-                }
-            } else {
-                echo "<p>No data</p>";
-            }
-            ?>
+           
+           
         </div>
     </div>
 </div>

@@ -122,17 +122,19 @@ $result = $stmt->get_result();
         <h2>Matches</h2>
 
         <?php
-        $matchActiveQuery = "SELECT match_active FROM result_from_user WHERE tournament_id = ? and user_id = ?";
-        $stmt = $conn->prepare($matchActiveQuery);
-        $stmt->bind_param("ii", $tournament_id, $user_id);
-        $stmt->execute();
-        
-        $stmt->bind_result($match_active);
-        $stmt->fetch();
+       
         $position = "pes";
+        $macth_id = 0; 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc(); // Fetch the first match
+            $macth_id =$row["match_id"];
+            $matchActiveQuery = "SELECT match_active FROM result_from_user WHERE tournament_id = ? and user_id = ? and match_id = ?";
+            $stmt = $conn->prepare($matchActiveQuery);
+            $stmt->bind_param("iii", $tournament_id, $user_id,$macth_id);
+            $stmt->execute();
             
+            $stmt->bind_result($match_active);
+            $stmt->fetch();
             // Display the current match
             echo '<div class="match-card">';
             echo '<h3>Current Match - Match #' . $position . '</h3>';
