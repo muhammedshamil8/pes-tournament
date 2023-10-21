@@ -408,6 +408,7 @@ if ($result_users->num_rows == 1 && $result_registration->num_rows > 0) {
                 // Display table rows for each club
                 $userClubId = $row['club_id'];
                 $club2 = $row['club_id'];
+                $clubUser = $row['user_id'];
     
                 // Additional improvement: Use a switch case to determine club information
                 switch ($club2) {
@@ -483,9 +484,9 @@ if ($result_users->num_rows == 1 && $result_registration->num_rows > 0) {
                 }
 
                 echo "<tr" . ($club == $userClubId ? " class='user-club-row'" : "") . ">
-                <td>$position</td>
-                <td><div class='match-team--intable'><img class='match-team-image-intable' src='$image' alt='club logo'>
-                 <p>$clubName</p></div></td>
+                <td>$position </td>
+                <td><a href='profile-page.php?uz=$clubUser'><div class='match-team--intable'><img class='match-team-image-intable'  src='$image' alt='club logo'>
+                 <p>$clubName</p></div></a></td>
                 <td>{$row['matches']}</td>
                 <td>{$row['win']}</td>
                 <td>{$row['draw']}</td>

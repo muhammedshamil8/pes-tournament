@@ -364,10 +364,10 @@ height:30px;
   
               <td>{$row['match_id']}</td>
               <td>{$row['tournament_id']}</td>
-                                          <td>club id:$m_team1_club_id<br> <div class='match-team--intable'><img class='match-team-image-intable' src='$image_team1' alt='club logo'>
-                                          <p>$clubName_team1</p></div></td>
-                                          <td>club id:$m_team2_club_id<br> <div class='match-team--intable'><img class='match-team-image-intable' src='$image_team2' alt='club logo'>
-                                          <p>$clubName_team2</p></div></td>
+                                          <td>club id:$m_team1_club_id<br> <a href='profile-page.php?uz= $m_team1_user_id'><div class='match-team--intable'><img class='match-team-image-intable' src='$image_team1' alt='club logo'>
+                                          <p>$clubName_team1</p></div></a></td>
+                                          <td>club id:$m_team2_club_id<br><a href='profile-page.php?uz= $m_team2_user_id'> <div class='match-team--intable'><img class='match-team-image-intable' src='$image_team2' alt='club logo'>
+                                          <p>$clubName_team2</p></div></a></td>
               <td>{$row['match_date']}</td>
              
               <td>$match_status
