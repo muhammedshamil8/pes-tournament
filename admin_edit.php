@@ -4,8 +4,8 @@
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Admin Edit</title>
-     <link rel="stylesheet" href="../styles/admin-general.css">
-     <link rel="stylesheet" href="../styles/general.css">
+     <link rel="stylesheet" href="./styles/admin-general.css">
+     <link rel="stylesheet" href="./styles/general.css">
      <style>
 
 body {

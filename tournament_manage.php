@@ -5,12 +5,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 session_start();
-require_once "../connect_db.php"; // Connect to your database
+require_once "./connect_db.php"; // Connect to your database
 
 // Check if the admin is logged in
 if (!isset($_SESSION['admin_username'])) {
     echo "Unauthorized access. Please log in as an admin.";
-    header("Location: ../admin.php");
+    header("Location: ./admin.php");
     exit();
 }
 
@@ -125,8 +125,8 @@ $conn->close(); // Close the database connection
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Manage Tournament</title>
-     <link rel="stylesheet" href="../styles/admin-general.css">
-     <link rel="stylesheet" href="../styles/general.css">
+     <link rel="stylesheet" href="./styles/admin-general.css">
+     <link rel="stylesheet" href="./styles/general.css">
      <style>
         table {
             width: 100%;
@@ -342,7 +342,7 @@ $conn->close(); // Close the database connection
            
        
             <div class="card edit-card" id="editCard">
-        <button onclick="hideEditCard();" class="card-close-btn" id=""><img src="../images/x-lg.svg" class="close-img"></button>
+        <button onclick="hideEditCard();" class="card-close-btn" id=""><img src="./images/x-lg.svg" class="close-img"></button>
         <div class="card">
             <div class="register">
                 <h2>Tournament Edit</h2>
@@ -364,7 +364,7 @@ $conn->close(); // Close the database connection
     </div>
 
     <div class="card delete-card" id="deleteCard">
-        <button onclick="hideDeleteCard();" class="card-close-btn" id=""><img src="../images/x-lg.svg" class="close-img"></button>
+        <button onclick="hideDeleteCard();" class="card-close-btn" id=""><img src="./images/x-lg.svg" class="close-img"></button>
         <div class="card">
             <p>Do you really want to delete the tournament?</p>
             <form action="" method="POST">

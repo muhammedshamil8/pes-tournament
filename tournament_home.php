@@ -5,12 +5,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 session_start();
-require_once "../connect_db.php"; // Connect to your database
+require_once "./connect_db.php"; // Connect to your database
 
 // Check if the admin is logged in
 if (!isset($_SESSION['admin_username'])) {
     echo "Unauthorized access. Please log in as an admin.";
-    header("Location: ../admin.php");
+    header("Location: ./admin.php");
     exit();
 }
 
@@ -32,8 +32,8 @@ if ($tournament_id === null) {
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="../styles/general.css">
-  <link rel="stylesheet" href="../styles/admin-general.css">
+  <link rel="stylesheet" href="./styles/general.css">
+  <link rel="stylesheet" href="./styles/admin-general.css">
 
 
 </head>
@@ -41,7 +41,7 @@ if ($tournament_id === null) {
     <header>
      <div class="header-card1">
         <h1>Welcome, <?php echo $_SESSION['admin_username']; ?></h1>
-        <a href="../logout.php">Log out</a>
+        <a href="./logout.php">Log out</a>
      </div>
         <?php
 echo "Welcome to Tournament Admin Page for Tournament ID: $tournament_id";

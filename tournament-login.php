@@ -2,14 +2,14 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 session_start();
-require_once "../connect_db.php"; // Connect to your database
+require_once "./connect_db.php"; // Connect to your database
 
 $error_msg = '';
 
 // Check if the admin is logged in
 if (!isset($_SESSION['admin_username'])) {
     echo "Unauthorized access. Please log in as an admin.";
-    header("Location: ../admin.php");
+    header("Location: ./admin.php");
     exit();
 }
 
@@ -43,8 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Retrieve the tournament_id for the newly inserted tournament
                     $tournament_id = $conn->insert_id;
                     $error_msg = "Tournament registered successfully : $tournament_name";
-                    header("Location: tournament_home.php?tournament_id=$tournament_id");
-
                 } else {
                     $error_msg = "Error registering the tournament: " . $conn->error;
                 }
@@ -66,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $row = $check_result->fetch_assoc();
                 $tournament_id = $row['tournament_id'];
                 // Redirect to the tournament admin page with the specific tournament_id
-                header("Location: tournament_home.php?tournament_id=$tournament_id");
+                header("Location: ./tournament_home.php?tournament_id=$tournament_id");
                 exit();
             } else {
                 $error_msg = "Invalid tournament selected.";
@@ -85,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Admin page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="../styles/general.css">
+    <link rel="stylesheet" href="./styles/general.css">
 
     <style>
         body {
@@ -106,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 10px;
             background-color: white;
             text-align: center;
-            /* display: none; */
+            display: none;
 
         }
 
@@ -117,7 +115,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 10px;
             background-color: white;
             text-align: center;
-            display: none;
 
         }
 

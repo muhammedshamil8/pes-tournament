@@ -2,11 +2,11 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 session_start();
-require_once "../connect_db.php"; // Connect to your database
+require_once "./connect_db.php"; // Connect to your database
 
 if (!isset($_SESSION['admin_username'])) {
     echo "Unauthorized access. Please log in as an admin.";
-    header("Location: ../admin.php");
+    header("Location: ./admin.php");
     exit();
 }
 
@@ -224,7 +224,7 @@ function deleteMatchesForTournament($tournament_id, $conn,$tournament_name) {
          echo "Total Matches: $total_matches";
      }
  }
-        //  &nbsp;   <a href='admin-pages/manage_match_result.php?tournament_id=$tournament_id&match_id=$match_id'></a>
+        //  &nbsp;   <a href='manage_match_result.php?tournament_id=$tournament_id&match_id=$match_id'></a>
        
        
         ?>

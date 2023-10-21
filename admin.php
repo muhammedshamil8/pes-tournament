@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($hashed_input_password === $hashed_password_from_db) {
             // Passwords match, proceed with login
             $_SESSION['admin_username'] = $username;
-            header("Location: ./admin-pages/admin_home.php"); // Redirect to the admin dashboard
+            header("Location: ./admin_home.php"); // Redirect to the admin dashboard
             exit();
         } else {
             $error_msg = "Invalid password. Please try again.";
