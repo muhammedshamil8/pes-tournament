@@ -189,7 +189,7 @@ if ($result_users->num_rows == 1 && $result_registration->num_rows > 0) {
     </button>
 
 
-          <button id="settingsBtn"><img class="nav-img" src="/images/settings.png"></button>
+          <button id="settingsBtn" onclick="window.location = 'index.php' "><img class="nav-img" src="/images/settings.png"></button>
 
           <form action="user_fixture.php" method="post">
         <input type="hidden" name="tournament_id" value="<?php echo $tournament_id; ?>">
@@ -288,33 +288,6 @@ if ($result_users->num_rows == 1 && $result_registration->num_rows > 0) {
 
     <section class="card2">
 
-      <h2>Upcoming Matches</h2>
-      <hr>
-      <div class="card2-matches-details">
-        <p>Following match:
-          <?php
-          echo "<div class='match-info'>";
-          echo "<div class='match-team-card'><img class='match-team-image' src='$image' alt='club logo'>";
-          echo "<p>$clubName</p></div>";
-          echo "<h4>vs</h4>";
-          echo "<div class='match-team-card'><img class='match-team-image' src='/images/ac-milan-logo.webp'></div>";
-          echo "</div>";
-          ?><br> on YYYY-MM-DD
-        </p>
-
-        <br>
-
-        <p>Next match:
-          <?php
-          echo "<div class='match-info'>";
-          echo "<div class='match-team-card'><img class='match-team-image' src='$image' alt='club logo'></div>";
-          // echo "<h3>$clubName</h3>";
-          echo "<h4>vs</h4>";
-          echo "<div class='match-team-card'><img class='match-team-image' src='/images/ac-milan-logo.webp'></div>";
-          echo "</div>";
-          ?><br> on YYYY-MM-DD
-        </p>
-      </div>
 
       <h2>Tournament Rules</h2>
       <hr>
